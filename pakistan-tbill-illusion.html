@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The T-bill Illusion — Pakistan's Domestic Debt Burden</title>
+<meta name="description" content="Pakistan ran a primary surplus yet borrowed ₨7.1T more — purely to service old debt. The JazzCash T-bill launch is a distraction from a structural debt crisis.">
+<meta property="og:title" content="The T-bill Illusion — Pakistan's Domestic Debt Burden">
+<meta property="og:description" content="Banks hold 64% of Pakistan's domestic debt via closed primary auctions. The public doesn't invest in T-bills. It pays for them.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0D0D0B;--ink-sec:#3D3D39;--ink-ter:#7A7A74;
+  --paper:#F7F6F2;--paper-sec:#EEEDEA;--white:#FFFFFF;--border:#D9D8D3;
+  --red:#C0392B;--red-bg:#FDF0EF;--red-dark:#8B1A10;
+  --amber:#A85B00;--amber-bg:#FEF4E6;
+  --blue:#0E52A0;--blue-bg:#E8F0FB;
+  --green:#0A6644;--green-bg:#E6F5EE;
+  --gray:#888780;--gray-bg:#F1EFE8;
+  --radius:10px;--radius-lg:16px;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* HEADER */
+header{background:var(--ink);color:#fff;padding:0 1.5rem;border-bottom:3px solid var(--red)}
+.header-inner{max-width:860px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px}
+.wordmark{display:flex;align-items:center;gap:10px}
+.wordmark-icon{width:30px;height:30px;background:var(--red);border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:#fff;flex-shrink:0}
+.wordmark-text{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:#fff}
+.wordmark-sub{font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:.04em;text-transform:uppercase}
+.header-link{font-size:12px;color:rgba(255,255,255,0.4);text-decoration:none}
+.header-link:hover{color:#fff}
+
+/* HERO */
+.hero{background:var(--ink);padding:3.5rem 1.5rem 3rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,0.015) 0,rgba(255,255,255,0.015) 1px,transparent 1px,transparent 60px),repeating-linear-gradient(0deg,rgba(255,255,255,0.015) 0,rgba(255,255,255,0.015) 1px,transparent 1px,transparent 60px);pointer-events:none}
+.hero-inner{max-width:860px;margin:0 auto;position:relative}
+.hero-kicker{display:inline-block;background:var(--red);color:#fff;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:4px;margin-bottom:18px}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(26px,5vw,46px);font-weight:700;line-height:1.15;letter-spacing:-0.02em;color:#fff;margin-bottom:16px;max-width:720px}
+.hero h1 em{font-style:normal;color:var(--red)}
+.hero-deck{font-size:15px;color:rgba(255,255,255,0.55);line-height:1.8;max-width:640px;margin-bottom:1.75rem}
+.hero-deck strong{color:rgba(255,255,255,0.85);font-weight:600}
+
+/* THE CORE ARGUMENT BOX */
+.argument-box{background:rgba(192,57,43,0.12);border:1px solid rgba(192,57,43,0.35);border-radius:var(--radius-lg);padding:1.5rem 1.75rem;margin-bottom:2rem;max-width:760px}
+.argument-box p{font-size:14px;color:rgba(255,255,255,0.75);line-height:1.85}
+.argument-box p+p{margin-top:.75rem}
+.argument-box strong{color:#fff;font-weight:600}
+.argument-box .highlight{color:#FAC775;font-weight:700}
+
+.hero-stats{display:flex;flex-wrap:wrap;gap:2rem;border-top:1px solid rgba(255,255,255,0.1);padding-top:1.5rem}
+.hero-stat-val{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;color:#fff;line-height:1;margin-bottom:4px}
+.hero-stat-val.red{color:var(--red)}
+.hero-stat-val.amber{color:#FAC775}
+.hero-stat-label{font-size:11px;color:rgba(255,255,255,0.4)}
+
+/* PAGE */
+.page{max-width:860px;margin:0 auto;padding:2.5rem 1.5rem 5rem}
+.section{margin-bottom:2.75rem}
+.sec-label{font-size:11px;font-weight:700;color:var(--ink-ter);text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.divider{border:none;border-top:1px solid var(--border);margin:2.5rem 0}
+
+/* METRIC CARDS */
+.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem}
+@media(max-width:600px){.metric-grid{grid-template-columns:repeat(2,1fr)}}
+.mc{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px}
+.mc-l{font-size:11px;color:var(--ink-ter);line-height:1.4;margin-bottom:5px}
+.mc-v{font-size:22px;font-weight:700;line-height:1.1}
+.mc-u{font-size:11px;color:var(--ink-ter);margin-top:3px}
+.c-red{color:var(--red)}.c-amb{color:var(--amber)}.c-blu{color:var(--blue)}.c-grn{color:var(--green)}
+
+/* CALLOUTS */
+.callout{border-left:3px solid var(--red);padding:12px 16px;background:var(--white);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:0 var(--radius) var(--radius) 0;margin-bottom:1.5rem}
+.callout.blue{border-left-color:var(--blue)}
+.callout.amber{border-left-color:var(--amber)}
+.callout.green{border-left-color:var(--green)}
+.callout p{font-size:14px;color:var(--ink-sec);line-height:1.8}
+.callout p strong{color:var(--ink);font-weight:700}
+.callout p+p{margin-top:.6rem}
+
+/* KEY ARGUMENT CALLOUT - on white bg */
+.key-argument{background:var(--red-bg);border:1px solid rgba(192,57,43,0.2);border-left:4px solid var(--red);border-radius:0 var(--radius-lg) var(--radius-lg) 0;padding:1.25rem 1.5rem;margin-bottom:1.75rem}
+.key-argument p{font-size:14px;color:var(--ink-sec);line-height:1.85}
+.key-argument p strong{color:var(--red);font-weight:700}
+.key-argument p+p{margin-top:.6rem}
+
+/* CHART WRAP */
+.chart-wrap{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-bottom:1.5rem}
+.chart-note{font-size:11px;color:var(--ink-ter);margin-top:10px;line-height:1.6}
+
+/* CSS BAR CHARTS */
+.bar-chart{display:flex;flex-direction:column;gap:11px}
+.bar-row{display:flex;align-items:center;gap:10px}
+.bar-label{font-size:12px;color:var(--ink-sec);flex-shrink:0;line-height:1.35}
+.bar-label.w140{width:140px}
+.bar-label.w190{width:190px}
+.bar-track{flex:1;background:var(--paper-sec);border-radius:4px;height:24px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:9px}
+.bar-fill span{font-size:11px;font-weight:700;color:#fff;white-space:nowrap}
+.bar-val{font-size:12px;font-weight:700;flex-shrink:0;width:58px;text-align:right}
+
+/* STACKED BARS */
+.stacked-section{display:flex;align-items:flex-end;gap:20px;height:240px;margin-bottom:8px}
+.stk-col{display:flex;flex-direction:column;align-items:center;flex:1;height:100%;justify-content:flex-end}
+.stk-total{font-size:11px;color:var(--ink-ter);margin-bottom:4px;font-weight:600}
+.stk-col-bars{display:flex;flex-direction:column;width:100%;justify-content:flex-end}
+.stk-seg{width:100%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff}
+.stk-year{font-size:12px;color:var(--ink-sec);margin-top:6px;font-weight:700;text-align:center}
+.stk-note{font-size:10px;margin-top:3px;text-align:center}
+.legend-row{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:12px}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-sec)}
+.legend-sq{width:11px;height:11px;border-radius:2px;flex-shrink:0}
+
+/* EXTERNAL DEBT CHART */
+.ext-chart-wrap{position:relative;padding-bottom:1rem}
+.ext-grid{position:relative;height:280px;border-left:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:6px}
+.ext-grid-line{position:absolute;left:0;right:0;border-top:1px dashed var(--border);display:flex;align-items:center}
+.ext-grid-line.threshold{border-top:2px dashed #E84040;z-index:2}
+.ext-grid-label{font-size:10px;color:var(--ink-ter);margin-left:-38px;width:34px;text-align:right;line-height:1}
+.ext-threshold-label{font-size:10px;font-weight:700;color:var(--red);margin-left:6px}
+.ext-svg{position:absolute;top:0;left:0;width:100%;height:100%}
+.ext-years{display:flex;justify-content:space-between;padding:0 0 0 0;margin-top:4px}
+.ext-year-label{font-size:10px;color:var(--ink-ter);text-align:center;flex:1}
+.peak-annotation{position:absolute;background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:3px 7px;border-radius:4px;white-space:nowrap}
+.breach-box{background:var(--red-bg);border:1px solid rgba(192,57,43,0.25);border-radius:var(--radius);padding:10px 14px;margin-top:12px}
+.breach-box p{font-size:13px;color:var(--ink-sec);line-height:1.7}
+.breach-box p strong{color:var(--red);font-weight:700}
+
+/* CORP CARDS */
+.corp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.5rem}
+@media(max-width:580px){.corp-grid{grid-template-columns:1fr}}
+.corp-card{border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px;background:var(--white)}
+.corp-tag{font-size:10px;color:var(--ink-ter);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.corp-name{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.corp-detail{font-size:12px;color:var(--ink-sec);line-height:1.6}
+.badge{display:inline-block;font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;margin-top:8px}
+.badge-red{background:var(--red-bg);color:var(--red)}
+.badge-blue{background:var(--blue-bg);color:var(--blue)}
+.badge-green{background:var(--green-bg);color:var(--green)}
+
+/* CYCLE */
+.cycle{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-bottom:1.5rem}
+@media(max-width:560px){.cycle{grid-template-columns:1fr 1fr}}
+.cyc-box{border:1px solid var(--border);padding:12px;background:var(--white);position:relative}
+.cyc-box:not(:last-child){border-right:none}
+.cyc-box:first-child{border-radius:var(--radius) 0 0 var(--radius)}
+.cyc-box:last-child{border-radius:0 var(--radius) var(--radius) 0;border:1px solid var(--red)}
+.cyc-t{font-size:11px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.cyc-d{font-size:11px;color:var(--ink-sec);line-height:1.5}
+.cyc-box:last-child .cyc-t{color:var(--red)}
+
+/* METHODOLOGY NOTE */
+.method-box{background:var(--paper-sec);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1.5rem}
+.method-box p{font-size:12px;color:var(--ink-ter);line-height:1.75}
+.method-box p strong{color:var(--ink-sec);font-weight:600}
+
+/* SOURCES */
+.source-list{list-style:disc;padding-left:1.2rem}
+.source-list li{font-size:13px;color:var(--ink-sec);margin-bottom:6px;line-height:1.6}
+
+footer{border-top:1px solid var(--border);padding:1.5rem;max-width:860px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-brand{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--ink)}
+.footer-note{font-size:12px;color:var(--ink-ter)}
+.back-link{font-size:13px;color:var(--blue);text-decoration:none}
+.back-link:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="wordmark">
+      <div class="wordmark-icon">DA</div>
+      <div>
+        <div class="wordmark-text">Data Analytics</div>
+        <div class="wordmark-sub">Pakistan · Public Interest</div>
+      </div>
+    </div>
+    <a href="index.html" class="header-link">← All analyses</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-kicker">Fiscal Analysis · June 2026</div>
+    <h1>Pakistan is borrowing to pay<br><em>interest on borrowing</em></h1>
+    <p class="hero-deck">
+      <strong>Pakistan ran a primary surplus of ₨1.8T in FY-25</strong> — meaning government revenues covered all operational spending without any borrowing. Yet it still ran a ₨7.1T fiscal deficit and issued fresh debt. Why? Because ₨9.46T in interest on <em>past</em> debt had to be paid. Every new T-bill issued today finances yesterday's interest bill — not a single road, school, or hospital.
+    </p>
+
+    <div class="argument-box">
+      <p><strong>The structural reality:</strong> Pakistan's deficit is no longer a governance spending problem. It is entirely a <span class="highlight">debt-servicing problem</span> — the compounding cost of decades of borrowing. A catchy JazzCash digital launch does not change this. It recruits retail savers into a system that extracts from them twice: once as taxpayers who fund the interest, and again as "investors" who get secondary-market access after banks lock in primary auction rates.</p>
+      <p>Meanwhile, external debt servicing breached the World Bank's 40% of exports danger threshold — peaking at <span class="highlight">60% in FY-23</span> and still hugging 38–39% today. There are internationally recognised limits on how much a government should borrow relative to its earnings. Pakistan has been breaching them without public scrutiny or political accountability.</p>
+    </div>
+
+    <div class="hero-stats">
+      <div><div class="hero-stat-val red">₨9.46T</div><div class="hero-stat-label">interest paid FY-25 (SBP)</div></div>
+      <div><div class="hero-stat-val">₨1.8T</div><div class="hero-stat-label">primary surplus — not enough</div></div>
+      <div><div class="hero-stat-val amber">₨7.1T</div><div class="hero-stat-label">fiscal deficit after interest</div></div>
+      <div><div class="hero-stat-val red">60%</div><div class="hero-stat-label">peak external debt/exports FY-23</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE -->
+<div class="page">
+
+  <!-- METHODOLOGY NOTE -->
+  <div class="method-box">
+    <p><strong>A note on variables:</strong> The <em>primary surplus</em> (₨1.8T) explicitly excludes interest payments — it measures whether revenues cover non-interest spending. The <em>fiscal deficit</em> (₨7.1T) includes interest. These are not the same equation. Our argument is precise: even after achieving a primary surplus — meaning current spending is covered — Pakistan still needed to borrow ₨7.1T to pay the interest bill on old debt. Interest expense is a <em>flow</em> variable (annual cost). Debt stock (₨80.5T) is a <em>stock</em> variable (accumulated balance). We do not net these against each other. All figures are from official SBP and MoF publications.</p>
+  </div>
+
+  <!-- HEADLINE METRICS -->
+  <div class="section">
+    <div class="sec-label">The headline numbers — FY-25 actual</div>
+    <div class="metric-grid">
+      <div class="mc">
+        <div class="mc-l">Total interest paid (SBP Table 5.2)</div>
+        <div class="mc-v c-red">₨9.46T</div>
+        <div class="mc-u">the entire reason for new debt</div>
+      </div>
+      <div class="mc">
+        <div class="mc-l">Domestic interest alone</div>
+        <div class="mc-v c-red">₨8.08T</div>
+        <div class="mc-u">T-bills, PIBs, NSS holders</div>
+      </div>
+      <div class="mc">
+        <div class="mc-l">Primary surplus FY-25</div>
+        <div class="mc-v c-grn">₨1.8T</div>
+        <div class="mc-u">excludes interest — revenues covered spending</div>
+      </div>
+      <div class="mc">
+        <div class="mc-l">Fiscal deficit (after interest)</div>
+        <div class="mc-v c-amb">₨7.1T</div>
+        <div class="mc-u">entirely driven by debt servicing cost</div>
+      </div>
+    </div>
+
+    <div class="key-argument">
+      <p><strong>If Pakistan has a primary surplus, why borrow at all?</strong> Because the ₨9.46T interest bill on accumulated past debt turns a ₨1.8T operational surplus into a ₨7.1T deficit. The government did not need to borrow for schools, salaries or infrastructure. It borrowed to pay the banks and bondholders it already owes. This is the definition of a debt trap — and issuing more T-bills, whether through a bank auction room or a smartphone app, deepens it.</p>
+      <p><strong>What limits exist?</strong> The World Bank flags a debt service-to-exports ratio above 40% as elevated risk. Pakistan hit 60% in FY-23 and remains at 38–39% today — hugging that danger line while launching retail debt campaigns with no public acknowledgement of where the proceeds actually go.</p>
+    </div>
+  </div>
+
+  <!-- INTEREST GROWTH -->
+  <div class="section">
+    <div class="sec-label">Interest expense growth — year on year (SBP Bulletin Table 5.2)</div>
+    <div class="chart-wrap">
+      <div class="bar-chart">
+        <div class="bar-row">
+          <div class="bar-label w140">FY-22 (base)</div>
+          <div class="bar-track"><div class="bar-fill" style="width:34%;background:#888780;"><span>base</span></div></div>
+          <div class="bar-val" style="color:#888780;">~₨3.2T</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label w140">FY-23 &nbsp;<strong style="color:var(--amber)">+23%</strong></div>
+          <div class="bar-track"><div class="bar-fill" style="width:59%;background:#A85B00;"><span>+23%</span></div></div>
+          <div class="bar-val" style="color:#A85B00;">~₨5.6T</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label w140">FY-24 &nbsp;<strong style="color:var(--red)">+43%</strong></div>
+          <div class="bar-track"><div class="bar-fill" style="width:87%;background:#C0392B;"><span>+43%</span></div></div>
+          <div class="bar-val" style="color:#C0392B;">₨8.2T</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label w140">FY-25 actual &nbsp;<strong style="color:var(--red)">+9%</strong></div>
+          <div class="bar-track"><div class="bar-fill" style="width:100%;background:#C0392B;"><span>₨9.46T — highest ever</span></div></div>
+          <div class="bar-val" style="color:#C0392B;">₨9.46T</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label w140">FY-27 (budgeted)</div>
+          <div class="bar-track"><div class="bar-fill" style="width:82%;background:#A85B00;"><span>projected</span></div></div>
+          <div class="bar-val" style="color:#A85B00;">₨7.8T</div>
+        </div>
+      </div>
+      <p class="chart-note">Source: SBP Statistical Bulletin Oct-2025, Table 5.2 — Interest Payments on Debt. FY-27 is the Ministry of Finance budget projection. Growth in FY-25 slowed to +9% from +43% — but the absolute level (₨9.46T) is the highest in Pakistan's history.</p>
+    </div>
+  </div>
+
+  <!-- EXTERNAL DEBT CHART -->
+  <div class="section">
+    <div class="sec-label">External debt servicing — % of exports (World Bank threshold: 40%)</div>
+    <div class="chart-wrap">
+      <div class="ext-chart-wrap">
+        <!-- Grid lines -->
+        <div class="ext-grid">
+          <!-- Y axis labels + grid lines at 0,10,20,30,40,50,60,70 -->
+          <div class="ext-grid-line" style="bottom:0%;"><span class="ext-grid-label">0%</span></div>
+          <div class="ext-grid-line" style="bottom:14.3%;"><span class="ext-grid-label">10%</span></div>
+          <div class="ext-grid-line" style="bottom:28.6%;"><span class="ext-grid-label">20%</span></div>
+          <div class="ext-grid-line" style="bottom:42.9%;"><span class="ext-grid-label">30%</span></div>
+          <div class="ext-grid-line threshold" style="bottom:57.1%;"><span class="ext-grid-label" style="color:var(--red);font-weight:700;">40%</span><span class="ext-threshold-label">⚠ World Bank danger threshold</span></div>
+          <div class="ext-grid-line" style="bottom:71.4%;"><span class="ext-grid-label">50%</span></div>
+          <div class="ext-grid-line" style="bottom:85.7%;"><span class="ext-grid-label">60%</span></div>
+
+          <!-- SVG lines plotted over 280px height, 0–70% scale, so 1% = 4px -->
+          <!-- FY06=14, FY08=13, FY10=20, FY12=12, FY14=22, FY16=21, FY18=29, FY20=52, FY22=41, FY23=60, FY24=40, FY25=39, FY26H1=38 -->
+          <svg class="ext-svg" viewBox="0 0 800 280" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- % of exports line (red solid) — y = 280 - (val/70)*280 -->
+            <polyline
+              points="30,224 100,219 170,196 240,212 310,196 380,202 450,168 520,132 560,163 590,56 650,168 710,175 770,182"
+              fill="none" stroke="#C0392B" stroke-width="2.5" stroke-linejoin="round"/>
+            <!-- dots -->
+            <circle cx="30" cy="224" r="4" fill="#C0392B"/>
+            <circle cx="100" cy="219" r="4" fill="#C0392B"/>
+            <circle cx="170" cy="196" r="4" fill="#C0392B"/>
+            <circle cx="240" cy="212" r="4" fill="#C0392B"/>
+            <circle cx="310" cy="196" r="4" fill="#C0392B"/>
+            <circle cx="380" cy="202" r="4" fill="#C0392B"/>
+            <circle cx="450" cy="168" r="4" fill="#C0392B"/>
+            <circle cx="520" cy="132" r="5" fill="#C0392B"/>
+            <circle cx="560" cy="163" r="4" fill="#C0392B"/>
+            <circle cx="590" cy="56" r="7" fill="#C0392B" stroke="#fff" stroke-width="2"/>
+            <circle cx="650" cy="168" r="4" fill="#C0392B"/>
+            <circle cx="710" cy="175" r="4" fill="#C0392B"/>
+            <circle cx="770" cy="182" r="4" fill="#C0392B"/>
+            <!-- Labels -->
+            <text x="520" y="122" font-size="12" font-weight="700" fill="#C0392B" text-anchor="middle">52%</text>
+            <text x="590" y="44" font-size="13" font-weight="700" fill="#C0392B" text-anchor="middle">60% PEAK</text>
+            <text x="710" y="165" font-size="11" fill="#C0392B" text-anchor="middle">39%</text>
+            <text x="770" y="172" font-size="11" fill="#C0392B" text-anchor="middle">38%</text>
+            <!-- % of exports + remittances (blue dashed) — lower values -->
+            <!-- FY06=11,FY08=10,FY10=17,FY12=13,FY14=16,FY16=14,FY18=19,FY20=28,FY22=22,FY23=33,FY24=27,FY25=25,FY26H1=24 -->
+            <polyline
+              points="30,236 100,240 170,212 240,224 310,216 380,220 450,208 520,160 560,188 590,140 650,176 710,184 770,188"
+              fill="none" stroke="#0E52A0" stroke-width="2" stroke-dasharray="6 4" stroke-linejoin="round"/>
+            <circle cx="590" cy="140" r="4" fill="#0E52A0"/>
+            <text x="590" y="130" font-size="11" font-weight="700" fill="#0E52A0" text-anchor="middle">33%</text>
+            <text x="710" y="196" font-size="11" fill="#0E52A0" text-anchor="middle">25%</text>
+          </svg>
+        </div>
+        <!-- Year labels -->
+        <div class="ext-years">
+          <div class="ext-year-label">FY06</div>
+          <div class="ext-year-label">FY08</div>
+          <div class="ext-year-label">FY10</div>
+          <div class="ext-year-label">FY12</div>
+          <div class="ext-year-label">FY14</div>
+          <div class="ext-year-label">FY16</div>
+          <div class="ext-year-label">FY18</div>
+          <div class="ext-year-label">FY20</div>
+          <div class="ext-year-label">FY22</div>
+          <div class="ext-year-label">FY23</div>
+          <div class="ext-year-label">FY24</div>
+          <div class="ext-year-label">FY25*</div>
+          <div class="ext-year-label">FY26 H1*</div>
+        </div>
+        <div class="legend-row" style="margin-top:12px;">
+          <div class="legend-item"><div class="legend-sq" style="background:#C0392B;"></div>% of Exports</div>
+          <div class="legend-item"><div class="legend-sq" style="background:#0E52A0;border:1px dashed #0E52A0;"></div>% of Exports + Remittances</div>
+          <div class="legend-item"><div class="legend-sq" style="background:#E84040;height:3px;margin-top:4px;"></div><span style="color:var(--red);font-weight:600;">40% World Bank danger threshold</span></div>
+        </div>
+      </div>
+      <div class="breach-box">
+        <p><strong>Pakistan has been breaching internationally recognised borrowing limits without public scrutiny.</strong> The World Bank flags a debt service-to-exports ratio above 40% as elevated risk. Pakistan peaked at 60% in FY-23 — meaning 60 cents of every export dollar went to debt repayment. It remains at 38–39% today, hugging the danger line. Yet the government launches smartphone T-bill campaigns with no public acknowledgement of this constraint. The purchasing power of every Pakistani is directly compressed when the government borrows beyond sustainable limits.</p>
+      </div>
+      <p class="chart-note">Sources: World Bank International Debt Statistics; SBP FY24 report. FY25 partial — H1 actual ($6.1B) + full-year exports ($32B). FY26 H1 estimate based on actual trade data + projected debt servicing run rate.</p>
+    </div>
+  </div>
+
+  <!-- BUDGET ALLOCATION -->
+  <div class="section">
+    <div class="sec-label">Where the federal budget actually goes — FY26-27</div>
+    <div class="chart-wrap">
+      <div class="bar-chart">
+        <div class="bar-row">
+          <div class="bar-label w190">Debt servicing (interest + principal)</div>
+          <div class="bar-track"><div class="bar-fill" style="width:43%;background:#C0392B;"><span>43% — largest item</span></div></div>
+          <div class="bar-val" style="color:#C0392B;">43%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label w190">Defence &amp; security</div>
+          <div class="bar-track"><div class="bar-fill" style="width:18%;background:#A85B00;"><span>~18%</span></div></div>
+          <div class="bar-val" style="color:#A85B00;">~18%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label w190">Development (PSDP)</div>
+          <div class="bar-track"><div class="bar-fill" style="width:10%;background:#0E52A0;"><span>~10%</span></div></div>
+          <div class="bar-val" style="color:#0E52A0;">~10%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label w190">Health &amp; education</div>
+          <div class="bar-track"><div class="bar-fill" style="width:7%;background:#0A6644;"><span>~7%</span></div></div>
+          <div class="bar-val" style="color:#0A6644;">~7%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label w190">Other expenditure</div>
+          <div class="bar-track"><div class="bar-fill" style="width:22%;background:#888780;"><span>~22%</span></div></div>
+          <div class="bar-val" style="color:#888780;">~22%</div>
+        </div>
+      </div>
+      <p class="chart-note">Debt servicing consumes more of the federal budget than defence, development, health and education combined. Source: Federal Budget FY26-27, Ministry of Finance Pakistan.</p>
+    </div>
+  </div>
+
+  <!-- DEBT DRIVERS -->
+  <div class="section">
+    <div class="sec-label">What drives Pakistan's rising debt stock — annual increases in ₨T</div>
+    <div class="legend-row">
+      <div class="legend-item"><div class="legend-sq" style="background:#C0392B;"></div>Interest expense (flow)</div>
+      <div class="legend-item"><div class="legend-sq" style="background:#4A87C7;"></div>Other factors — FX, cash mgmt (revaluation)</div>
+      <div class="legend-item"><div class="legend-sq" style="background:#0A6644;"></div>Primary balance — surplus reduces, deficit adds (flow)</div>
+    </div>
+    <div class="chart-wrap">
+      <div class="stacked-section">
+        <div class="stk-col">
+          <div class="stk-total">+₨13.6T</div>
+          <div class="stk-col-bars">
+            <div class="stk-seg" style="background:#4A87C7;height:127px;">6.9</div>
+            <div class="stk-seg" style="background:#C0392B;height:105px;">5.7</div>
+            <div class="stk-seg" style="background:#555553;height:18px;font-size:10px;">1.0</div>
+          </div>
+          <div class="stk-year">Jun-23</div>
+        </div>
+        <div class="stk-col">
+          <div class="stk-total">+₨8.6T</div>
+          <div class="stk-col-bars">
+            <div class="stk-seg" style="background:#4A87C7;height:11px;font-size:10px;">0.6</div>
+            <div class="stk-seg" style="background:#C0392B;height:154px;">8.2</div>
+            <div class="stk-seg" style="background:#185FA5;height:7px;"></div>
+          </div>
+          <div class="stk-year">Jun-24</div>
+          <div class="stk-note" style="color:var(--blue)">(0.4) deficit</div>
+        </div>
+        <div class="stk-col">
+          <div class="stk-total">+₨9.2T</div>
+          <div class="stk-col-bars">
+            <div class="stk-seg" style="background:#4A87C7;height:39px;">2.1</div>
+            <div class="stk-seg" style="background:#C0392B;height:167px;">8.9</div>
+            <div class="stk-seg" style="background:#0A6644;height:34px;font-size:10px;">(1.8)</div>
+          </div>
+          <div class="stk-year">Jun-25</div>
+          <div class="stk-note" style="color:var(--green)">surplus offsets</div>
+        </div>
+        <div style="flex:1.6;padding-left:18px;display:flex;flex-direction:column;justify-content:center;gap:16px;padding-bottom:28px;">
+          <div style="border-left:3px solid #C0392B;padding-left:10px;">
+            <p style="font-size:12px;font-weight:700;color:var(--ink);margin-bottom:3px;">Interest is the engine of debt growth</p>
+            <p style="font-size:12px;color:var(--ink-sec);line-height:1.6;">In FY-25, a ₨1.8T primary surplus partially offset the debt increase — but ₨8.9T in interest payments still drove debt stock up ₨9.2T. The surplus helped at the margin. It could not stop the compounding.</p>
+          </div>
+          <div style="border-left:3px solid #0A6644;padding-left:10px;">
+            <p style="font-size:12px;font-weight:700;color:var(--ink);margin-bottom:3px;">Primary surplus is real — but insufficient</p>
+            <p style="font-size:12px;color:var(--ink-sec);line-height:1.6;">At ₨1.8T it is 5× smaller than the interest it must offset. Pakistan needs sustained primary surpluses far larger than ₨1.8T to stabilise the debt ratio.</p>
+          </div>
+        </div>
+      </div>
+      <p class="chart-note">Source: Annual Debt Review FY-25, Debt Policy Coordination Office, Ministry of Finance — p.9. Chart shows annual changes in debt stock by driver. Interest expense and primary balance are flow variables; FX/revaluation effects are stock adjustments. These are not netted against each other.</p>
+    </div>
+  </div>
+
+  <!-- CREDITOR PROFILE -->
+  <div class="section">
+    <div class="sec-label">Who holds Pakistan's domestic debt — creditor profile FY-25</div>
+    <div class="chart-wrap">
+      <div class="bar-chart">
+        <div class="bar-row">
+          <div class="bar-label w190">Commercial banks<br><span style="font-size:10px;color:var(--ink-ter)">primary dealers — closed auctions</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:64%;background:#C0392B;"><span>dominant — 64%</span></div></div>
+          <div class="bar-val" style="color:#C0392B;">64%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label w190">State Bank of Pakistan</div>
+          <div class="bar-track"><div class="bar-fill" style="width:9%;background:#A85B00;"><span></span></div></div>
+          <div class="bar-val" style="color:#A85B00;">9%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label w190">NSS — existing retail channel<br><span style="font-size:10px;color:var(--ink-ter)">decades-old avenue, pre-dates JazzCash</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:18%;background:#0E52A0;"><span>real retail</span></div></div>
+          <div class="bar-val" style="color:#0E52A0;">~18%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label w190">JazzCash &amp; all new retail<br><span style="font-size:10px;color:var(--ink-ter)">"democratised investment"</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:1%;background:#888780;"></div></div>
+          <div class="bar-val" style="color:#888780;">~0%</div>
+        </div>
+      </div>
+      <p class="chart-note">Source: Annual Debt Review FY-25 p.11 — "commercial banks remain the largest holder of domestic government securities with their share rising to 64%." Creditor shares are stock-level proportions of outstanding domestic debt.</p>
+    </div>
+    <div class="callout blue">
+      <p><strong>The primary dealer system:</strong> T-bill auctions are conducted through primary dealers — commercial banks that bid directly with the government in a closed room, locking in institutional rates. The public is excluded from this process. JazzCash gives retail customers secondary-market access <em>after</em> banks have already priced the instrument. NSS has offered retail government securities for decades. JazzCash adds a fintech fee layer and a Finance Minister press conference.</p>
+    </div>
+  </div>
+
+  <!-- CORPORATE TRIO -->
+  <div class="section">
+    <div class="sec-label">The corporate trio behind the "financial inclusion" campaign</div>
+    <div class="corp-grid">
+      <div class="corp-card">
+        <div class="corp-tag">Parent — NASDAQ listed</div>
+        <div class="corp-name">VEON Ltd</div>
+        <div class="corp-detail">Global digital operator. 150M+ customers across 5 countries. Listed on Nasdaq. Aamir Ibrahim (Jazz/JazzWorld CEO) chaired the Islamabad launch alongside Finance Minister Muhammad Aurangzeb.</div>
+        <span class="badge badge-blue">Nasdaq: VEON</span>
+      </div>
+      <div class="corp-card">
+        <div class="corp-tag">Digital wallet — fee earner</div>
+        <div class="corp-name">JazzCash</div>
+        <div class="corp-detail">60M registered users. ₨16.8T processed to Mar-26. Earns a transaction fee on every T-bill retail purchase. Minimum investment ₨5,000 — secondary market access only.</div>
+        <span class="badge badge-red">T-bill distributor</span>
+      </div>
+      <div class="corp-card">
+        <div class="corp-tag">Microfinance bank subsidiary</div>
+        <div class="corp-name">Mobilink Bank</div>
+        <div class="corp-detail">VEON subsidiary. $35M invested since Jan-25. Holds the mandatory deposit accounts required to access the T-bill product — account custodian in the fee chain.</div>
+        <span class="badge badge-green">Account custodian</span>
+      </div>
+    </div>
+    <div class="callout amber">
+      <p><strong>What the launch actually provides:</strong> A NASDAQ-listed multinational earns fees on Pakistani citizens buying government debt — after commercial banks locked in primary auction pricing. NSS already does this without the fintech layer. The public is recruited into the debt machine twice: as taxpayers who fund ₨9.46T in annual interest, and as retail "investors" who receive whatever yield remains after banks have taken their position.</p>
+      <p><strong>The purchasing power connection:</strong> Every rupee of unnecessary government borrowing beyond what the primary surplus requires is inflationary pressure on the economy — compressing the real purchasing power of wages and savings. Digital campaigns that make this borrowing look like an opportunity for citizens are a distraction from the scale of the structural problem.</p>
+    </div>
+  </div>
+
+  <!-- CYCLE -->
+  <div class="section">
+    <div class="sec-label">The compounding cycle — how it perpetuates</div>
+    <div class="cycle">
+      <div class="cyc-box">
+        <div class="cyc-t">Primary surplus exists</div>
+        <div class="cyc-d">Revenues cover all non-interest spending. No operational need to borrow.</div>
+      </div>
+      <div class="cyc-box">
+        <div class="cyc-t">But interest bill arrives</div>
+        <div class="cyc-d">₨9.46T owed to banks, PIB holders, NSS — turns surplus into ₨7.1T deficit</div>
+      </div>
+      <div class="cyc-box">
+        <div class="cyc-t">New T-bills issued</div>
+        <div class="cyc-d">To finance interest on old T-bills. Banks buy at closed auction. Rolled into PIBs.</div>
+      </div>
+      <div class="cyc-box">
+        <div class="cyc-t">Public pays regardless</div>
+        <div class="cyc-d">Via taxes, electricity surcharges, inflation — and now a JazzCash fee too.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SOURCES -->
+  <div class="section">
+    <div class="sec-label">Sources — all official</div>
+    <ul class="source-list">
+      <li>SBP Statistical Bulletin Oct-2025, Chapter 5, Table 5.2 — Interest Payments on Debt</li>
+      <li>Annual Debt Review FY-25, Debt Policy Coordination Office, Ministry of Finance — pages 9, 11, 14</li>
+      <li>Federal Budget FY26-27, Ministry of Finance Pakistan</li>
+      <li>World Bank International Debt Statistics; SBP FY24 External Debt Report</li>
+      <li>VEON / JazzCash press release, June 16 2026 — JazzCash and Mobilink Bank Bring Government Treasury Bills to Smartphones</li>
+      <li>SBP Primary Dealer Framework — domestic debt auction structure</li>
+      <li>SBP EasyData: Central Govt Domestic Debt — Market Treasury Bills (CGDD-ST-FD-MTBs), data to Apr-2026</li>
+    </ul>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-brand">Data Analytics · Pakistan</div>
+  <div class="footer-note">All data from official GoP, SBP and World Bank publications · June 2026</div>
+</footer>
+
+</body>
+</html>
