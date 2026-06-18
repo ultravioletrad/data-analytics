@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Analytics — Pakistan Fiscal & Economic Data</title>
+<meta name="description" content="Public interest data visualizations on Pakistan's fiscal and economic reality. Built from official SBP and Ministry of Finance data.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black:   #0D0D0B;
+  --ink:     #1A1A18;
+  --red:     #C0392B;
+  --red-dim: #7A1F16;
+  --amber:   #D4520A;
+  --gold:    #E8A020;
+  --blue:    #1A5FA8;
+  --teal:    #0F7A6B;
+  --white:   #FAFAF8;
+  --off:     #F2F0EB;
+  --muted:   #C8C5BC;
+  --dim:     #7A7870;
+  --border:  rgba(255,255,255,0.08);
+  --border-light: rgba(255,255,255,0.14);
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Inter', system-ui, sans-serif;
+}
+
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--black);
+  color: var(--white);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+header {
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(13,13,11,0.92);
+  backdrop-filter: blur(12px);
+}
+.header-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 56px;
+}
+.logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none;
+}
+.logo-mark {
+  width: 28px; height: 28px;
+  background: var(--red);
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.logo-mark svg { width: 16px; height: 16px; fill: none; stroke: #fff; stroke-width: 2.5; stroke-linecap: round; }
+.logo-text { font-size: 14px; font-weight: 700; color: var(--white); letter-spacing: -.01em; }
+.logo-sub { font-size: 11px; color: var(--dim); font-weight: 400; margin-left: 4px; }
+nav { display: flex; gap: 6px; }
+nav a {
+  font-size: 12px; font-weight: 500; color: var(--muted);
+  text-decoration: none; padding: 6px 10px; border-radius: 6px;
+  transition: color .15s, background .15s;
+}
+nav a:hover { color: var(--white); background: rgba(255,255,255,0.06); }
+
+/* ── HERO ── */
+.hero {
+  max-width: 1100px; margin: 0 auto;
+  padding: 5rem 2rem 3.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 11px; font-weight: 600;
+  color: var(--red); text-transform: uppercase; letter-spacing: .08em;
+  margin-bottom: 1.5rem;
+}
+.hero-tag::before {
+  content: ''; width: 8px; height: 8px;
+  background: var(--red); border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; } 50% { opacity: .3; }
+}
+h1 {
+  font-size: clamp(36px, 6vw, 72px);
+  font-weight: 900; line-height: 1.05;
+  letter-spacing: -.03em; color: var(--white);
+  margin-bottom: 1.5rem;
+}
+h1 em { font-style: normal; color: var(--red); }
+.hero-body {
+  font-size: 17px; color: var(--muted);
+  max-width: 600px; line-height: 1.75; margin-bottom: 2rem;
+}
+.hero-stats {
+  display: flex; flex-wrap: wrap; gap: 2rem;
+  padding-top: 2rem; border-top: 1px solid var(--border);
+}
+.hstat-val {
+  font-size: 28px; font-weight: 800;
+  letter-spacing: -.02em; color: var(--white);
+  margin-bottom: 2px;
+}
+.hstat-val.red { color: var(--red); }
+.hstat-val.gold { color: var(--gold); }
+.hstat-val.teal { color: #4AC9B4; }
+.hstat-label { font-size: 11px; color: var(--dim); text-transform: uppercase; letter-spacing: .05em; }
+
+/* ── MAIN LAYOUT ── */
+.main { max-width: 1100px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+
+/* ── SECTION HEADING ── */
+.section-head {
+  display: flex; align-items: baseline; gap: 14px;
+  margin-bottom: 1.5rem;
+}
+.section-head h2 {
+  font-size: 11px; font-weight: 700; color: var(--dim);
+  text-transform: uppercase; letter-spacing: .08em; font-family: var(--mono);
+}
+.section-head::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* ── FEATURED CARD ── */
+.featured {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+  background: var(--border-light);
+  border: 1px solid var(--border-light);
+  border-radius: 14px; overflow: hidden;
+  margin-bottom: 3rem;
+}
+@media (max-width: 700px) { .featured { grid-template-columns: 1fr; } }
+.feat-content {
+  background: #141412;
+  padding: 2rem;
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.feat-eyebrow {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 10px; font-weight: 600;
+  color: var(--red); text-transform: uppercase; letter-spacing: .08em;
+  margin-bottom: 1rem;
+}
+.feat-badge {
+  background: rgba(192,57,43,.15); border: 1px solid rgba(192,57,43,.3);
+  color: var(--red); font-size: 10px; font-weight: 600;
+  padding: 2px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: .05em;
+}
+.feat-content h3 {
+  font-size: 22px; font-weight: 800; line-height: 1.25;
+  letter-spacing: -.02em; color: var(--white); margin-bottom: 12px;
+}
+.feat-content p {
+  font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem;
+}
+.feat-meta {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 1.25rem; border-top: 1px solid var(--border);
+}
+.feat-date { font-family: var(--mono); font-size: 11px; color: var(--dim); }
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 600; text-decoration: none;
+  padding: 9px 18px; border-radius: 8px;
+  transition: all .15s;
+}
+.btn-red { background: var(--red); color: #fff; }
+.btn-red:hover { background: #a93226; transform: translateY(-1px); }
+.btn-ghost {
+  border: 1px solid var(--border-light); color: var(--muted);
+  background: transparent;
+}
+.btn-ghost:hover { border-color: rgba(255,255,255,.3); color: var(--white); }
+
+.feat-stats {
+  background: #0F0F0D;
+  padding: 2rem;
+  display: flex; flex-direction: column; gap: 0;
+}
+.feat-stat {
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.feat-stat:last-child { border-bottom: none; padding-bottom: 0; }
+.feat-stat:first-child { padding-top: 0; }
+.fstat-val {
+  font-size: 32px; font-weight: 800; letter-spacing: -.03em;
+  margin-bottom: 2px;
+}
+.fstat-val.red { color: var(--red); }
+.fstat-val.gold { color: var(--gold); }
+.fstat-val.teal { color: #4AC9B4; }
+.fstat-val.blue { color: #6AADEC; }
+.fstat-label { font-size: 12px; color: var(--dim); line-height: 1.4; }
+
+/* ── ARTICLE GRID ── */
+.article-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
+  margin-bottom: 3rem;
+}
+.article-card {
+  background: #141412; padding: 1.5rem;
+  display: flex; flex-direction: column; justify-content: space-between;
+  text-decoration: none; color: inherit;
+  transition: background .15s;
+  min-height: 200px;
+}
+.article-card:hover { background: #1A1A17; }
+.ac-tag {
+  font-family: var(--mono); font-size: 10px; font-weight: 600;
+  color: var(--dim); text-transform: uppercase; letter-spacing: .07em;
+  margin-bottom: 10px;
+}
+.article-card h3 {
+  font-size: 16px; font-weight: 700; line-height: 1.3;
+  letter-spacing: -.01em; color: var(--white); margin-bottom: 8px;
+  flex: 1;
+}
+.article-card p {
+  font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 1rem;
+}
+.ac-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 1rem; border-top: 1px solid var(--border);
+}
+.ac-date { font-family: var(--mono); font-size: 10px; color: var(--dim); }
+.ac-arrow { color: var(--dim); font-size: 16px; transition: transform .15s, color .15s; }
+.article-card:hover .ac-arrow { transform: translateX(4px); color: var(--red); }
+.ac-coming {
+  background: #0F0F0D; padding: 1.5rem;
+  display: flex; flex-direction: column; justify-content: center;
+  align-items: center; text-align: center; min-height: 200px;
+  opacity: .5;
+}
+.ac-coming p { font-size: 13px; color: var(--dim); margin-top: 8px; }
+.ac-coming span { font-size: 28px; }
+
+/* ── METHODOLOGY ── */
+.method {
+  background: #0F0F0D;
+  border: 1px solid var(--border-light);
+  border-radius: 14px; padding: 2rem;
+  margin-bottom: 3rem;
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem;
+}
+@media (max-width: 640px) { .method { grid-template-columns: 1fr; } }
+.method-item { }
+.method-icon {
+  width: 36px; height: 36px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 10px; font-size: 18px;
+}
+.method-icon.red { background: rgba(192,57,43,.15); }
+.method-icon.gold { background: rgba(232,160,32,.15); }
+.method-icon.teal { background: rgba(15,122,107,.15); }
+.method-item h4 { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 5px; }
+.method-item p { font-size: 13px; color: var(--dim); line-height: 1.6; }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem;
+}
+.footer-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;
+}
+.footer-left p { font-size: 12px; color: var(--dim); line-height: 1.8; }
+.footer-left strong { color: var(--muted); font-weight: 600; }
+.footer-right { display: flex; gap: 8px; }
+.footer-tag {
+  font-family: var(--mono); font-size: 10px; font-weight: 600;
+  color: var(--dim); border: 1px solid var(--border-light);
+  padding: 4px 10px; border-radius: 4px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .hero { padding: 3rem 1.25rem 2rem; }
+  .main { padding: 2rem 1.25rem 3rem; }
+  header { padding: 0 1.25rem; }
+  h1 { font-size: 36px; }
+  .hero-stats { gap: 1.25rem; }
+  nav { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a class="logo" href="index.html">
+      <div class="logo-mark">
+        <svg viewBox="0 0 16 16"><polyline points="2,12 6,7 10,9 14,3"/></svg>
+      </div>
+      <span class="logo-text">Data Analytics<span class="logo-sub">Pakistan</span></span>
+    </a>
+    <nav>
+      <a href="#reports">Reports</a>
+      <a href="#methodology">About</a>
+      <a href="https://github.com" target="_blank">GitHub ↗</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">Public Interest Data</div>
+  <h1>Pakistan's fiscal<br>reality — <em>in numbers</em></h1>
+  <p class="hero-body">Data visualizations built entirely from official SBP and Ministry of Finance sources. No opinion without a citation. No chart without a source.</p>
+  <div class="hero-stats">
+    <div>
+      <div class="hstat-val red">₨9.46T</div>
+      <div class="hstat-label">Interest paid FY-25</div>
+    </div>
+    <div>
+      <div class="hstat-val gold">43%</div>
+      <div class="hstat-label">Budget consumed by debt</div>
+    </div>
+    <div>
+      <div class="hstat-val teal">₨80.5T</div>
+      <div class="hstat-label">Total domestic debt stock</div>
+    </div>
+    <div>
+      <div class="hstat-val" style="color:#888;">64%</div>
+      <div class="hstat-label">Debt held by commercial banks</div>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- FEATURED -->
+  <div id="reports">
+    <div class="section-head"><h2>Latest report</h2></div>
+  </div>
+  <div class="featured">
+    <div class="feat-content">
+      <div>
+        <div class="feat-eyebrow">
+          <span>Domestic Debt</span>
+          <span class="feat-badge">New</span>
+        </div>
+        <h3>The T-bill "investment" illusion: who pays and who profits</h3>
+        <p>VEON's JazzCash and Mobilink Bank call T-bills "democratising investment." The SBP and Ministry of Finance data shows Pakistan paid ₨9.46T in interest in FY-25 — 5× its primary surplus. Banks hold 64% of domestic debt via closed primary auctions. The public doesn't invest. It pays.</p>
+      </div>
+      <div class="feat-meta">
+        <span class="feat-date">June 2026</span>
+        <div style="display:flex;gap:8px;">
+          <a href="pakistan-tbill-illusion.html" class="btn btn-red">Read report →</a>
+        </div>
+      </div>
+    </div>
+    <div class="feat-stats">
+      <div class="feat-stat">
+        <div class="fstat-val red">₨9.46T</div>
+        <div class="fstat-label">Total interest paid FY-25<br><span style="color:#555;font-size:11px;">SBP Statistical Bulletin Table 5.2</span></div>
+      </div>
+      <div class="feat-stat">
+        <div class="fstat-val gold">5×</div>
+        <div class="fstat-label">Interest vs primary surplus<br><span style="color:#555;font-size:11px;">₨8.9T swallowed ₨1.8T surplus</span></div>
+      </div>
+      <div class="feat-stat">
+        <div class="fstat-val blue">64%</div>
+        <div class="fstat-label">Domestic debt held by banks<br><span style="color:#555;font-size:11px;">Annual Debt Review FY-25, MoF</span></div>
+      </div>
+      <div class="feat-stat">
+        <div class="fstat-val teal">~0%</div>
+        <div class="fstat-label">JazzCash share of debt stock<br><span style="color:#555;font-size:11px;">NSS already served retail investors</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARTICLE GRID -->
+  <div class="section-head"><h2>All reports</h2></div>
+  <div class="article-grid">
+    <a class="article-card" href="pakistan-tbill-illusion.html">
+      <div>
+        <div class="ac-tag">Domestic Debt · June 2026</div>
+        <h3>The T-bill "investment" illusion: who pays and who profits</h3>
+        <p>VEON, JazzCash and Mobilink Bank launch T-bills on smartphones. The official data on what this actually means for Pakistan's ₨80.5T debt burden.</p>
+      </div>
+      <div class="ac-footer">
+        <span class="ac-date">Jun 2026</span>
+        <span class="ac-arrow">→</span>
+      </div>
+    </a>
+    <div class="ac-coming">
+      <span>📊</span>
+      <p>Next report coming soon</p>
+    </div>
+    <div class="ac-coming">
+      <span>📉</span>
+      <p>More analysis in progress</p>
+    </div>
+  </div>
+
+  <!-- METHODOLOGY -->
+  <div id="methodology">
+    <div class="section-head"><h2>How this works</h2></div>
+  </div>
+  <div class="method">
+    <div class="method-item">
+      <div class="method-icon red">📂</div>
+      <h4>Official sources only</h4>
+      <p>Every number comes from SBP, Ministry of Finance, or DPCO publications. Each chart cites its source document and page number.</p>
+    </div>
+    <div class="method-item">
+      <div class="method-icon gold">🔍</div>
+      <h4>No paywalls</h4>
+      <p>All reports are free, open and hosted on GitHub Pages. The underlying HTML is public in the repository — inspect anything.</p>
+    </div>
+    <div class="method-item">
+      <div class="method-icon teal">⚡</div>
+      <h4>Built for sharing</h4>
+      <p>Each report is designed to be screenshotted section-by-section for X threads. Data journalism that travels beyond the page.</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-left">
+      <p><strong>Data Analytics — Pakistan</strong><br>
+      All data sourced from official Government of Pakistan and State Bank of Pakistan publications.<br>
+      Built for public interest and fiscal transparency. Hosted on GitHub Pages.</p>
+    </div>
+    <div class="footer-right">
+      <span class="footer-tag">SBP</span>
+      <span class="footer-tag">MoF</span>
+      <span class="footer-tag">DPCO</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
