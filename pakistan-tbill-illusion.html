@@ -29,7 +29,7 @@
   --gray:#888780;--gray-bg:#F1EFE8;
   --radius:10px;--radius-lg:16px;
    /* ── Layout ── */
-  --max:        85%;  
+  --max:       900px;  
 }
 html{font-size:16px;scroll-behavior:smooth}
 body{font-family:'Inter',system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
@@ -74,6 +74,12 @@ header{background:var(--ink);color:#fff;padding:0 1.5rem;border-bottom:3px solid
 .sec-label::after{content:'';flex:1;height:1px;background:var(--border)}
 .divider{border:none;border-top:1px solid var(--border);margin:2.5rem 0}
 
+  /* For smaller screens */
+@media (max-width: 700px) {
+  .page {
+    padding: 2rem 0.75rem 4rem;  /* even less padding on mobile */
+  }
+}
 /* METRIC CARDS */
 .metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem}
 @media(max-width:600px){.metric-grid{grid-template-columns:repeat(2,1fr)}}
