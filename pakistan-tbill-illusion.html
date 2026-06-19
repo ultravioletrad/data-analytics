@@ -418,82 +418,18 @@ management and accounting treatment</div>
   <div class="section">
     <div class="sec-label">External debt servicing: % of exports (World Bank threshold: 40%)</div>
     <div class="chart-wrap">
-      <div class="ext-chart-wrap">
-        <!-- Grid lines -->
-        <div class="ext-grid">
-          <!-- Y axis labels + grid lines at 0,10,20,30,40,50,60,70 -->
-          <div class="ext-grid-line" style="bottom:0%;"><span class="ext-grid-label">0%</span></div>
-          <div class="ext-grid-line" style="bottom:14.3%;"><span class="ext-grid-label">10%</span></div>
-          <div class="ext-grid-line" style="bottom:28.6%;"><span class="ext-grid-label">20%</span></div>
-          <div class="ext-grid-line" style="bottom:42.9%;"><span class="ext-grid-label">30%</span></div>
-          <div class="ext-grid-line threshold" style="bottom:57.1%;"><span class="ext-grid-label" style="color:var(--red);font-weight:700;">40%</span><span class="ext-threshold-label">⚠ World Bank danger threshold</span></div>
-          <div class="ext-grid-line" style="bottom:71.4%;"><span class="ext-grid-label">50%</span></div>
-          <div class="ext-grid-line" style="bottom:85.7%;"><span class="ext-grid-label">60%</span></div>
-
-          <!-- SVG lines plotted over 280px height, 0–70% scale, so 1% = 4px -->
-          <!-- FY06=14, FY08=13, FY10=20, FY12=12, FY14=22, FY16=21, FY18=29, FY20=52, FY22=41, FY23=60, FY24=40, FY25=39, FY26H1=38 -->
-          <svg class="ext-svg" viewBox="0 0 800 280" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- % of exports line (red solid) — y = 280 - (val/70)*280 -->
-            <polyline
-              points="30,224 100,219 170,196 240,212 310,196 380,202 450,168 520,132 560,163 590,56 650,168 710,175 770,182"
-              fill="none" stroke="#C0392B" stroke-width="2.5" stroke-linejoin="round"/>
-            <!-- dots -->
-            <circle cx="30" cy="224" r="4" fill="#C0392B"/>
-            <circle cx="100" cy="219" r="4" fill="#C0392B"/>
-            <circle cx="170" cy="196" r="4" fill="#C0392B"/>
-            <circle cx="240" cy="212" r="4" fill="#C0392B"/>
-            <circle cx="310" cy="196" r="4" fill="#C0392B"/>
-            <circle cx="380" cy="202" r="4" fill="#C0392B"/>
-            <circle cx="450" cy="168" r="4" fill="#C0392B"/>
-            <circle cx="520" cy="132" r="5" fill="#C0392B"/>
-            <circle cx="560" cy="163" r="4" fill="#C0392B"/>
-            <circle cx="590" cy="56" r="7" fill="#C0392B" stroke="#fff" stroke-width="2"/>
-            <circle cx="650" cy="168" r="4" fill="#C0392B"/>
-            <circle cx="710" cy="175" r="4" fill="#C0392B"/>
-            <circle cx="770" cy="182" r="4" fill="#C0392B"/>
-            <!-- Labels -->
-            <text x="520" y="122" font-size="12" font-weight="700" fill="#C0392B" text-anchor="middle">52%</text>
-            <text x="590" y="44" font-size="13" font-weight="700" fill="#C0392B" text-anchor="middle">60% PEAK</text>
-            <text x="710" y="165" font-size="11" fill="#C0392B" text-anchor="middle">39%</text>
-            <text x="770" y="172" font-size="11" fill="#C0392B" text-anchor="middle">38%</text>
-            <!-- % of exports + remittances (blue dashed) — lower values -->
-            <!-- FY06=11,FY08=10,FY10=17,FY12=13,FY14=16,FY16=14,FY18=19,FY20=28,FY22=22,FY23=33,FY24=27,FY25=25,FY26H1=24 -->
-            <polyline
-              points="30,236 100,240 170,212 240,224 310,216 380,220 450,208 520,160 560,188 590,140 650,176 710,184 770,188"
-              fill="none" stroke="#0E52A0" stroke-width="2" stroke-dasharray="6 4" stroke-linejoin="round"/>
-            <circle cx="590" cy="140" r="4" fill="#0E52A0"/>
-            <text x="590" y="130" font-size="11" font-weight="700" fill="#0E52A0" text-anchor="middle">33%</text>
-            <text x="710" y="196" font-size="11" fill="#0E52A0" text-anchor="middle">25%</text>
-          </svg>
+      <img 
+        src="pakistan-external-debt-servicing-burden.png.png" 
+        alt="Pakistan's external debt servicing burden as % of exports (solid red) and exports + remittances (blue dashed) · FY06 – FY26 H1"
+        style="width:100%; height:auto; display:block; border-radius:4px;"
+      />
+      <div class="breach-box" style="margin-top:14px;">
+        <div class="breach-box">
+          <p><strong>Pakistan has been breaching internationally recognised borrowing limits without public scrutiny.</strong> The World Bank flags a debt service-to-exports ratio above 40% as elevated risk. Measured against exports alone, Pakistan peaked at <strong>60% in FY-23</strong>, meaning 60 cents of every export dollar went to external debt repayment that year. Measured against exports plus remittances (a more complete picture of Pakistan's foreign exchange inflows, since remittances run ~$27B annually), the peak was 33%, still very close to the threshold. Today the exports-only ratio sits at 38–39%, still hugging the danger line. The position has improved from the FY-23 crisis peak, but remains elevated, and critically, this chart captures only <em>external</em> debt servicing in foreign currency. It does not include the ₨9.46T domestic interest burden which falls entirely on Pakistani taxpayers and utility bill payers. Both burdens are real and simultaneous. Yet the government launches smartphone T-bill campaigns with no public acknowledgement of either constraint.</p>
         </div>
-        <!-- Year labels -->
-        <div class="ext-years">
-          <div class="ext-year-label">FY06</div>
-          <div class="ext-year-label">FY08</div>
-          <div class="ext-year-label">FY10</div>
-          <div class="ext-year-label">FY12</div>
-          <div class="ext-year-label">FY14</div>
-          <div class="ext-year-label">FY16</div>
-          <div class="ext-year-label">FY18</div>
-          <div class="ext-year-label">FY20</div>
-          <div class="ext-year-label">FY22</div>
-          <div class="ext-year-label">FY23</div>
-          <div class="ext-year-label">FY24</div>
-          <div class="ext-year-label">FY25*</div>
-          <div class="ext-year-label">FY26 H1*</div>
-        </div>
-        <div class="legend-row" style="margin-top:12px;">
-          <div class="legend-item"><div class="legend-sq" style="background:#C0392B;"></div>% of Exports</div>
-          <div class="legend-item"><div class="legend-sq" style="background:#0E52A0;border:1px dashed #0E52A0;"></div>% of Exports + Remittances</div>
-          <div class="legend-item"><div class="legend-sq" style="background:#E84040;height:3px;margin-top:4px;"></div><span style="color:var(--red);font-weight:600;">40% World Bank danger threshold</span></div>
-        </div>
+        <p class="chart-note">Sources: World Bank International Debt Statistics; SBP FY24 report. FY25 partial, H1 actual ($6.1B) + full-year exports ($32B). FY26 H1 estimate based on actual trade data + projected debt servicing run rate.</p>
       </div>
-      <div class="breach-box">
-        <p><strong>Pakistan has been breaching internationally recognised borrowing limits without public scrutiny.</strong> The World Bank flags a debt service-to-exports ratio above 40% as elevated risk. Measured against exports alone, Pakistan peaked at <strong>60% in FY-23</strong>, meaning 60 cents of every export dollar went to external debt repayment that year. Measured against exports plus remittances (a more complete picture of Pakistan's foreign exchange inflows, since remittances run ~$27B annually), the peak was 33%, still very close to the threshold. Today the exports-only ratio sits at 38–39%, still hugging the danger line. The position has improved from the FY-23 crisis peak, but remains elevated, and critically, this chart captures only <em>external</em> debt servicing in foreign currency. It does not include the ₨9.46T domestic interest burden which falls entirely on Pakistani taxpayers and utility bill payers. Both burdens are real and simultaneous. Yet the government launches smartphone T-bill campaigns with no public acknowledgement of either constraint.</p>
-      </div>
-      <p class="chart-note">Sources: World Bank International Debt Statistics; SBP FY24 report. FY25 partial, H1 actual ($6.1B) + full-year exports ($32B). FY26 H1 estimate based on actual trade data + projected debt servicing run rate.</p>
     </div>
-  </div>
 
   <!-- BUDGET ALLOCATION -->
   <div class="section">
