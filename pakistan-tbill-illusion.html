@@ -8,19 +8,19 @@
 <meta property="og:title" content="The T-bill Illusion: Pakistan's Domestic Debt Burden">
 <meta property="og:description" content="Banks hold 64% of Pakistan's domestic debt via closed primary auctions. The public doesn't invest in T-bills. It pays for them.">
 <meta property="og:type" content="article">
-<meta property="og:image" content="https://ultravioletrad.github.io/data-analytics/card-tbill.png">
+<meta property="og:image" content="https://ultravioletrad.github.io/data-analytics/tbill_x_social_card_v2.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="628">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@ultravioletrad">
 <meta name="twitter:title" content="The T-bill illusion and the debt trap">
 <meta name="twitter:description" content="Pakistan paid ₨9.46T in interest in FY-25. Banks hold 64% of domestic debt via closed auctions. The public does not invest in T-bills. It pays for them.">
-<meta name="twitter:image" content="https://ultravioletrad.github.io/data-analytics/card-tbill.png"> 
+<meta name="twitter:image" content="https://ultravioletrad.github.io/data-analytics/tbill_x_social_card_v2.png"> 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --ink:#0D0D0B;--ink-sec:#3D3D39;--ink-ter:#7A7A74;
+  --ink:#0D0D0B;--ink-sec:#3D3D39;--ink-ter:#343431;
   --paper:#F7F6F2;--paper-sec:#EEEDEA;--white:#FFFFFF;--border:#D9D8D3;
   --red:#C0392B;--red-bg:#FDF0EF;--red-dark:#8B1A10;
   --amber:#A85B00;--amber-bg:#FEF4E6;
@@ -28,6 +28,8 @@
   --green:#0A6644;--green-bg:#E6F5EE;
   --gray:#888780;--gray-bg:#F1EFE8;
   --radius:10px;--radius-lg:16px;
+   /* ── Layout ── */
+  --max:   1000px;  
 }
 html{font-size:16px;scroll-behavior:smooth}
 body{font-family:'Inter',system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
@@ -65,13 +67,22 @@ header{background:var(--ink);color:#fff;padding:0 1.5rem;border-bottom:3px solid
 .hero-stat-val.amber{color:#FAC775}
 .hero-stat-label{font-size:11px;color:rgba(255,255,255,0.4)}
 
-/* PAGE */
-.page{max-width:860px;margin:0 auto;padding:2.5rem 1.5rem 5rem}
+.page {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 2.5rem 1rem 5rem;  /* side padding for breathing room */
+}
 .section{margin-bottom:2.75rem}
-.sec-label{font-size:11px;font-weight:700;color:var(--ink-ter);text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.sec-label{font-size:11px;font-weight:800;color:var(--ink-ter);text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px;display:flex;align-items:center;gap:10px}
 .sec-label::after{content:'';flex:1;height:1px;background:var(--border)}
 .divider{border:none;border-top:1px solid var(--border);margin:2.5rem 0}
 
+  /* For smaller screens */
+@media (max-width: 700px) {
+  .page {
+    padding: 2rem 0.75rem 4rem;  /* even less padding on mobile */
+  }
+}
 /* METRIC CARDS */
 .metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem}
 @media(max-width:600px){.metric-grid{grid-template-columns:repeat(2,1fr)}}
@@ -197,7 +208,7 @@ footer{border-top:1px solid var(--border);padding:1.5rem;max-width:860px;margin:
 <div class="hero">
   <div class="hero-inner">
     <div class="hero-kicker">Fiscal Analysis · June 2026</div>
-    <h1>The T-bill Illusion: Pakistan's Domestic Debt Burden. Pakistan is borrowing to pay<br><em>interest on borrowing</em></h1>
+    <h1>The T-bill Illusion: Pakistan's Domestic Debt Burden, Pakistan is borrowing to pay<br><em>interest on borrowing</em></h1>
     <p class="hero-deck">
       <strong>Pakistan ran a primary surplus of ₨1.8T in FY-25</strong>, meaning government revenues covered all operational spending without any borrowing. Yet it still ran a ₨7.1T fiscal deficit and issued fresh debt. Why? Because ₨9.46T in interest on <em>past</em> debt had to be paid. Every new T-bill issued today finances yesterday's interest bill, not a single road, school, or hospital.
     </p>
@@ -249,15 +260,68 @@ footer{border-top:1px solid var(--border);padding:1.5rem;max-width:860px;margin:
         <div class="mc-u">entirely driven by debt servicing cost</div>
       </div>
     </div>
-
+    <!-- DEBT DRIVERS -->
+  <div class="section">
+    <div class="sec-label">What drives Pakistan's rising debt stock, annual increases in ₨T</div>
+    <div class="legend-row">
+      <div class="legend-item"><div class="legend-sq" style="background:#555553;"></div>Federal primary balance</div>
+      <div class="legend-item"><div class="legend-sq" style="background:#C0392B;"></div>Interest expense</div>
+      <div class="legend-item"><div class="legend-sq" style="background:#4BBFB0;"></div>Other factors: Exchange Rate valuation affect, cash
+management and accounting treatment</div>
+</div>
+    </div>
+    <div class="chart-wrap">
+      <div class="stacked-section" style="margin-top:32px;">
+        <div class="stk-col">
+          <div class="stk-total">+₨13.6T</div>
+          <div class="stk-col-bars">
+            <div class="stk-seg" style="background:#4BBFB0;height:127px;">6.9</div>
+            <div class="stk-seg" style="background:#C0392B;height:105px;">5.7</div>
+            <div class="stk-seg" style="background:#555553;height:18px;">1.0</div>
+          </div>
+          <div class="stk-year">Jun-23</div>
+        </div>
+        <div class="stk-col">
+          <div class="stk-total">+₨8.6T</div>
+          <div class="stk-col-bars">
+            <div class="stk-seg" style="background:#4BBFB0;height:11px;font-size:10px;">0.6</div>
+            <div class="stk-seg" style="background:#C0392B;height:154px;">8.2</div>
+            <div class="stk-seg" style="background:#555553;height:7px;">0.4</div>
+          </div>
+          <div class="stk-year">Jun-24</div>
+        </div>
+        <div class="stk-col">
+          <div class="stk-total">+₨9.2T</div>
+          <div class="stk-col-bars">
+            <div class="stk-seg" style="background:#4BBFB0;height:39px;">2.1</div>
+            <div class="stk-seg" style="background:#C0392B;height:167px;">8.9</div>
+            <div class="stk-seg" style="background:#555553;height:34px;">1.8</div>
+          </div>
+          <div class="stk-year">Jun-25</div>
+          <!-- <div class="stk-note" style="color:var(--green)">surplus offsets</div> -->
+        </div>
+        <div style="flex:1.6;padding-left:28px;border-left:1px solid var(--border);display:flex;flex-direction:column;justify-content:center;gap:20px;padding-bottom:28px;">
+          <div style="border-left:3px solid #C0392B;padding-left:10px;">
+            <p style="font-size:12px;font-weight:700;color:var(--ink);margin-bottom:3px;">Interest is the engine of debt growth</p>
+            <p style="font-size:12px;color:var(--ink-sec);line-height:1.6;">In FY-25, a ₨1.8T primary surplus partially offset the debt increase, but ₨8.9T in interest payments still drove debt stock up ₨9.2T. The surplus helped at the margin. It could not stop the compounding.</p>
+          </div>
+          <div style="border-left:3px solid #0A6644;padding-left:10px;">
+            <p style="font-size:12px;font-weight:700;color:var(--ink);margin-bottom:3px;">Primary surplus is real but insufficient</p>
+            <p style="font-size:12px;color:var(--ink-sec);line-height:1.6;">At ₨1.8T it is 5× smaller than the interest it must offset. Pakistan needs sustained primary surpluses far larger than ₨1.8T to stabilise the debt ratio.</p>
+          </div>
+        </div>
+      </div>
+      <p class="chart-note">Source: Annual Debt Review FY-25, Debt Policy Coordination Office, Ministry of Finance, p.9. Chart shows annual changes in debt stock by driver. Interest expense and primary balance are flow variables; FX/revaluation effects are stock adjustments. These are not netted against each other.</p>
+    </div>
+  </div>
     <div class="key-argument">
       <p><strong>If Pakistan has a primary surplus, why borrow at all?</strong> Because the ₨9.46T interest bill on accumulated past debt turns a ₨1.8T operational surplus into a ₨7.1T deficit. The government did not need to borrow for schools, salaries or infrastructure. It borrowed to pay the banks and bondholders it already owes. This is the definition of a debt trap, and issuing more T-bills, whether through a bank auction room or a smartphone app, deepens it.</p>
       <p><strong>What limits exist?</strong> The World Bank flags an external debt service-to-exports ratio above 40% as elevated risk, this measures foreign currency debt repayment against export earnings only. Pakistan hit 60% on this measure in FY-23 (33% when remittances are added). It remains at 38–39% today, near that danger line, while launching retail debt campaigns with no public acknowledgement of where the proceeds go or what the sustainable borrowing limit is.</p>
     </div>
-  </div>
+  
   <!-- HOW THE SURPLUS WAS ACHIEVED -->
   <div class="section">
-    <div class="sec-label">How was the primary surplus achieved?</div>
+    <div class="sec-label"><p><strong>How was the primary surplus achieved?</strong></p></div>
     <div class="callout amber">
       <p><strong>Not through growth but through compression.</strong> The government achieved this surplus by squeezing provincial transfers and compressing development spending, not through high GDP growth. Under a fragile recovery with interest rates above 20% and inflation near 25%, the surplus was a policy choice to compress provincial funds, not a sign of economic strength. This is why the surplus exists alongside a massive interest bill and continued borrowing — the govt did not grow its way to fiscal health, it cut transfers to provinces to show a number.</p>
     </div>
@@ -317,7 +381,7 @@ footer{border-top:1px solid var(--border);padding:1.5rem;max-width:860px;margin:
 </div>
   <!-- INTEREST GROWTH -->
   <div class="section">
-    <div class="sec-label">Interest expense growth: year on year (SBP Bulletin Table 5.2)</div>
+    <div class="sec-label">Interest expense growth: Year on Year (SBP Bulletin Table 5.2)</div>
     <div class="chart-wrap">
       <div class="bar-chart">
         <div class="bar-row">
@@ -433,7 +497,7 @@ footer{border-top:1px solid var(--border);padding:1.5rem;max-width:860px;margin:
 
   <!-- BUDGET ALLOCATION -->
   <div class="section">
-    <div class="sec-label">Where the federal budget actually goes, FY26-27</div>
+    <div class="sec-label"><p><strong>Where the federal budget actually goes, FY26-27</strong></p></div>
     <div class="chart-wrap">
       <div class="bar-chart">
         <div class="bar-row">
@@ -463,60 +527,6 @@ footer{border-top:1px solid var(--border);padding:1.5rem;max-width:860px;margin:
         </div>
       </div>
       <p class="chart-note">Debt servicing consumes more of the federal budget than defence, development, health and education combined. Source: Federal Budget FY26-27, Ministry of Finance Pakistan.</p>
-    </div>
-  </div>
-
-  <!-- DEBT DRIVERS -->
-  <div class="section">
-    <div class="sec-label">What drives Pakistan's rising debt stock, annual increases in ₨T</div>
-    <div class="legend-row">
-      <div class="legend-item"><div class="legend-sq" style="background:#C0392B;"></div>Interest expense (flow)</div>
-      <div class="legend-item"><div class="legend-sq" style="background:#4A87C7;"></div>Other factors: FX, cash mgmt (revaluation)</div>
-      <div class="legend-item"><div class="legend-sq" style="background:#0A6644;"></div>Primary balance: surplus reduces, deficit adds (flow)</div>
-    </div>
-    <div class="chart-wrap">
-      <div class="stacked-section">
-        <div class="stk-col">
-          <div class="stk-total">+₨13.6T</div>
-          <div class="stk-col-bars">
-            <div class="stk-seg" style="background:#4A87C7;height:127px;">6.9</div>
-            <div class="stk-seg" style="background:#C0392B;height:105px;">5.7</div>
-            <div class="stk-seg" style="background:#555553;height:18px;font-size:10px;">1.0</div>
-          </div>
-          <div class="stk-year">Jun-23</div>
-        </div>
-        <div class="stk-col">
-          <div class="stk-total">+₨8.6T</div>
-          <div class="stk-col-bars">
-            <div class="stk-seg" style="background:#4A87C7;height:11px;font-size:10px;">0.6</div>
-            <div class="stk-seg" style="background:#C0392B;height:154px;">8.2</div>
-            <div class="stk-seg" style="background:#185FA5;height:7px;"></div>
-          </div>
-          <div class="stk-year">Jun-24</div>
-          <div class="stk-note" style="color:var(--blue)">(0.4) deficit</div>
-        </div>
-        <div class="stk-col">
-          <div class="stk-total">+₨9.2T</div>
-          <div class="stk-col-bars">
-            <div class="stk-seg" style="background:#4A87C7;height:39px;">2.1</div>
-            <div class="stk-seg" style="background:#C0392B;height:167px;">8.9</div>
-            <div class="stk-seg" style="background:#0A6644;height:34px;font-size:10px;">(1.8)</div>
-          </div>
-          <div class="stk-year">Jun-25</div>
-          <div class="stk-note" style="color:var(--green)">surplus offsets</div>
-        </div>
-        <div style="flex:1.6;padding-left:18px;display:flex;flex-direction:column;justify-content:center;gap:16px;padding-bottom:28px;">
-          <div style="border-left:3px solid #C0392B;padding-left:10px;">
-            <p style="font-size:12px;font-weight:700;color:var(--ink);margin-bottom:3px;">Interest is the engine of debt growth</p>
-            <p style="font-size:12px;color:var(--ink-sec);line-height:1.6;">In FY-25, a ₨1.8T primary surplus partially offset the debt increase, but ₨8.9T in interest payments still drove debt stock up ₨9.2T. The surplus helped at the margin. It could not stop the compounding.</p>
-          </div>
-          <div style="border-left:3px solid #0A6644;padding-left:10px;">
-            <p style="font-size:12px;font-weight:700;color:var(--ink);margin-bottom:3px;">Primary surplus is real but insufficient</p>
-            <p style="font-size:12px;color:var(--ink-sec);line-height:1.6;">At ₨1.8T it is 5× smaller than the interest it must offset. Pakistan needs sustained primary surpluses far larger than ₨1.8T to stabilise the debt ratio.</p>
-          </div>
-        </div>
-      </div>
-      <p class="chart-note">Source: Annual Debt Review FY-25, Debt Policy Coordination Office, Ministry of Finance, p.9. Chart shows annual changes in debt stock by driver. Interest expense and primary balance are flow variables; FX/revaluation effects are stock adjustments. These are not netted against each other.</p>
     </div>
   </div>
 
@@ -627,6 +637,6 @@ footer{border-top:1px solid var(--border);padding:1.5rem;max-width:860px;margin:
   <div class="footer-brand">Data Analytics · Pakistan</div>
   <div class="footer-note">All data from official GoP, SBP and World Bank publications · June 2026</div>
 </footer>
-
+</div>
 </body>
 </html>
