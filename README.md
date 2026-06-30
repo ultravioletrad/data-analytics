@@ -36,6 +36,25 @@ Key findings:
 
 ---
 
+### IPP Capacity Payments — The ₨1.8 Trillion Liability
+*June 2026*
+
+PMLN claims to have ended loadshedding, yet Pakistan faces hours of power cuts
+while paying billions for idle capacity. PIDE data reveals the scale of the
+crisis.
+
+Key findings:
+- Capacity payments exceeded ₨1.77T in FY22, projected to reach ₨2.8T by FY25
+- 71% of the power purchase price goes to capacity payments, only 29% for energy
+- IPPs are paid even when plants sit idle — no verification of supply claims
+- Agreements under the 1994 Power Policy are dollar-denominated, exposing
+  Pakistan to exchange rate risks
+- "Hardly any monitoring" of actual capacity and availability, according to PIDE
+
+**Read:** https://ultravioletrad.github.io/data-analytics/IPPS-electricity-loadshedding.html
+
+---
+
 ## Coming soon
 
 - Circular debt mechanics: how the power sector became a fiscal black hole
@@ -54,7 +73,4 @@ All figures are sourced from official publications:
 - World Bank International Debt Statistics
 - SBP EasyData: Central Govt Domestic Debt (CGDD-ST-FD-MTBs)
 - SBP Primary Dealer Framework
-
----
-
-## Structure
+- PIDE — PIP-Corporate-Window-IPPs-and-Capacity-Payments
