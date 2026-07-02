@@ -1,502 +1,506 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pakistan Independant power Producers(IPPs) and Capacity Payments Data Analysis</title>
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Chart.js for colorful charts -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IPP Capacity Payments: Pakistan's Electricity Paradox</title>
+<meta name="description" content="Pakistan pays Rs1.9 trillion in capacity payments to power plants in FY24, 71% of the electricity tariff. Loadshedding continues. Consumers pay for idle capacity they never receive.">
+<meta property="og:title" content="IPP Capacity Payments: Pakistan's Electricity Paradox">
+<meta property="og:description" content="46 GW installed. 12-12.5 GW baseload demand. Consumers pay for idle plants via capacity charges, circular debt surcharges and fuel levies, while suffering loadshedding on top.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://ultravioletrad.github.io/data-analytics/card-ipps.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="628">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@ultravioletrad">
+<meta name="twitter:title" content="IPP Capacity Payments: Pakistan's Electricity Paradox">
+<meta name="twitter:description" content="Pakistan pays Rs1.9T in capacity payments in FY24. Plants sit idle. Consumers suffer loadshedding. Then pay for the circular debt on top.">
+<meta name="twitter:image" content="https://ultravioletrad.github.io/data-analytics/card-ipps.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0D0D0B;--ink-sec:#3D3D39;--ink-ter:#7A7A74;
+  --paper:#F7F6F2;--paper-sec:#EEEDEA;--white:#FFFFFF;--border:#D9D8D3;
+  --red:#C0392B;--red-bg:#FDF0EF;
+  --amber:#A85B00;--amber-bg:#FEF4E6;
+  --blue:#0E52A0;--blue-bg:#E8F0FB;
+  --green:#0A6644;--green-bg:#E6F5EE;
+  --gray:#888780;--gray-bg:#F1EFE8;
+  --radius:10px;--radius-lg:16px;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
 
-        body {
-            background: linear-gradient(145deg, #f9f3e8 0%, #f0ebe0 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 24px;
-        }
+header{background:var(--ink);color:#fff;padding:0 1.5rem;border-bottom:3px solid var(--red)}
+.header-inner{max-width:860px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px}
+.wordmark{display:flex;align-items:center;gap:10px}
+.wordmark-icon{width:30px;height:30px;background:var(--red);border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:#fff;flex-shrink:0}
+.wordmark-text{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:#fff}
+.wordmark-sub{font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:.04em;text-transform:uppercase}
+.header-link{font-size:12px;color:rgba(255,255,255,0.4);text-decoration:none}
+.header-link:hover{color:#fff}
 
-        .dashboard {
-            max-width: 1300px;
-            width: 100%;
-            background: rgba(255, 255, 245, 0.75);
-            backdrop-filter: blur(2px);
-            border-radius: 48px;
-            padding: 32px 30px 40px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 0 8px 16px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(255, 215, 140, 0.3);
-        }
+.hero{background:var(--ink);padding:3.5rem 1.5rem 3rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,0.015) 0,rgba(255,255,255,0.015) 1px,transparent 1px,transparent 60px),repeating-linear-gradient(0deg,rgba(255,255,255,0.015) 0,rgba(255,255,255,0.015) 1px,transparent 1px,transparent 60px);pointer-events:none}
+.hero-inner{max-width:860px;margin:0 auto;position:relative}
+.hero-kicker{display:inline-block;background:var(--red);color:#fff;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:4px;margin-bottom:18px}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;color:rgba(255,255,255,0.6);letter-spacing:0.01em;margin-bottom:10px;margin-top:6px}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(24px,5vw,44px);font-weight:700;line-height:1.15;letter-spacing:-0.02em;color:#fff;margin-bottom:16px;max-width:720px}
+.hero h1 em{font-style:normal;color:var(--red)}
+.hero-deck{font-size:15px;color:rgba(255,255,255,0.55);line-height:1.8;max-width:640px;margin-bottom:1.75rem}
+.hero-deck strong{color:rgba(255,255,255,0.85);font-weight:600}
+.argument-box{background:rgba(192,57,43,0.12);border:1px solid rgba(192,57,43,0.3);border-radius:var(--radius-lg);padding:1.25rem 1.5rem;margin-bottom:2rem;max-width:760px}
+.argument-box p{font-size:14px;color:rgba(255,255,255,0.72);line-height:1.85}
+.argument-box p+p{margin-top:.65rem}
+.argument-box strong{color:#fff;font-weight:600}
+.argument-box .hl{color:#FAC775;font-weight:700}
+.hero-stats{display:flex;flex-wrap:wrap;gap:2rem;border-top:1px solid rgba(255,255,255,0.1);padding-top:1.5rem}
+.hero-stat-val{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;color:#fff;line-height:1;margin-bottom:4px}
+.hero-stat-val.red{color:var(--red)}
+.hero-stat-val.amber{color:#FAC775}
+.hero-stat-label{font-size:11px;color:rgba(255,255,255,0.4)}
 
-        /* header */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            margin-bottom: 28px;
-            border-bottom: 2px dashed #d9b382;
-            padding-bottom: 18px;
-        }
+.page{max-width:860px;margin:0 auto;padding:2.5rem 1.5rem 5rem}
+.section{margin-bottom:2.75rem}
+.sec-label{font-size:12px;font-weight:700;color:var(--ink-sec);text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.divider{border:none;border-top:1px solid var(--border);margin:2.5rem 0}
 
-        .header h1 {
-            font-size: 2.1rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #7d3c1b, #b45f2a);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -0.5px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem}
+@media(max-width:600px){.metric-grid{grid-template-columns:repeat(2,1fr)}}
+.mc{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px}
+.mc-l{font-size:11px;color:var(--ink-ter);line-height:1.4;margin-bottom:5px}
+.mc-v{font-size:22px;font-weight:700;line-height:1.1}
+.mc-u{font-size:11px;color:var(--ink-ter);margin-top:3px}
+.c-red{color:var(--red)}.c-amb{color:var(--amber)}.c-blu{color:var(--blue)}.c-grn{color:var(--green)}
 
-        .header h1 i {
-            background: #b45f2a;
-            color: #fff5e6;
-            padding: 12px;
-            border-radius: 60px;
-            font-size: 1.6rem;
-            -webkit-text-fill-color: white;
-            box-shadow: 0 6px 12px rgba(180, 95, 42, 0.3);
-        }
+.callout{border-left:3px solid var(--red);padding:12px 16px;background:var(--white);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:0 var(--radius) var(--radius) 0;margin-bottom:1.5rem}
+.callout.blue{border-left-color:var(--blue)}
+.callout.amber{border-left-color:var(--amber)}
+.callout.green{border-left-color:var(--green)}
+.callout p{font-size:14px;color:var(--ink-sec);line-height:1.8}
+.callout p strong{color:var(--ink);font-weight:700}
+.callout p+p{margin-top:.65rem}
 
-        .badge-pide {
-            background: #1e3c4f;
-            color: #f7e9d7;
-            padding: 10px 22px;
-            border-radius: 60px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            letter-spacing: 0.3px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+.key-argument{background:var(--red-bg);border:1px solid rgba(192,57,43,0.2);border-left:4px solid var(--red);border-radius:0 var(--radius-lg) var(--radius-lg) 0;padding:1.25rem 1.5rem;margin-bottom:1.75rem}
+.key-argument p{font-size:14px;color:var(--ink-sec);line-height:1.85}
+.key-argument p strong{color:var(--red);font-weight:700}
+.key-argument p+p{margin-top:.65rem}
 
-        .badge-pide i {
-            color: #f9b84a;
-        }
+.chart-wrap{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-bottom:1.5rem}
+.chart-note{font-size:11px;color:var(--ink-ter);margin-top:10px;line-height:1.6}
 
-        /* grid */
-        .grid-4 {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 22px;
-            margin-bottom: 30px;
-        }
+.bar-chart{display:flex;flex-direction:column;gap:11px}
+.bar-row{display:flex;align-items:center;gap:10px}
+.bar-label{font-size:12px;color:var(--ink-sec);flex-shrink:0;line-height:1.35}
+.bar-label.w160{width:160px}
+.bar-label.w200{width:200px}
+.bar-track{flex:1;background:var(--paper-sec);border-radius:4px;height:24px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:9px}
+.bar-fill span{font-size:11px;font-weight:700;color:#fff;white-space:nowrap}
+.bar-val{font-size:12px;font-weight:700;flex-shrink:0;width:70px;text-align:right}
 
-        .stat-card {
-            background: white;
-            border-radius: 28px;
-            padding: 20px 16px 18px;
-            box-shadow: 0 12px 24px -8px rgba(90, 60, 30, 0.12);
-            border: 1px solid rgba(220, 180, 130, 0.25);
-            transition: transform 0.15s ease;
-            display: flex;
-            flex-direction: column;
-            backdrop-filter: blur(4px);
-            background: rgba(255, 252, 245, 0.8);
-        }
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:1.5rem}
+@media(max-width:580px){.two-col{grid-template-columns:1fr}}
 
-        .stat-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 30px -10px rgba(120, 70, 30, 0.2);
-            border-color: #dba87a;
-        }
+.stat-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem 1.5rem}
+.stat-card-label{font-size:11px;color:var(--ink-ter);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.stat-card-val{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;margin-bottom:4px}
+.stat-card-desc{font-size:13px;color:var(--ink-sec);line-height:1.6}
 
-        .stat-label {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
-            color: #6f4e2e;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
+.paradox-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.5rem}
+@media(max-width:560px){.paradox-grid{grid-template-columns:1fr}}
+.paradox-card{border-radius:var(--radius-lg);padding:1.25rem;border:1px solid var(--border)}
+.paradox-card.left{background:var(--red-bg);border-color:rgba(192,57,43,0.2)}
+.paradox-card.right{background:var(--blue-bg);border-color:rgba(14,82,160,0.2)}
+.paradox-title{font-size:13px;font-weight:700;margin-bottom:8px}
+.paradox-card.left .paradox-title{color:var(--red)}
+.paradox-card.right .paradox-title{color:var(--blue)}
+.paradox-item{font-size:13px;color:var(--ink-sec);line-height:1.6;margin-bottom:4px;padding-left:14px;position:relative}
+.paradox-item::before{content:'•';position:absolute;left:0;color:var(--ink-ter)}
 
-        .stat-label i {
-            color: #b45f2a;
-            width: 20px;
-            font-size: 1rem;
-        }
+.loadshed-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.5rem}
+@media(max-width:580px){.loadshed-grid{grid-template-columns:1fr}}
+.ls-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.1rem 1.25rem}
+.ls-card-region{font-size:10px;font-weight:700;color:var(--ink-ter);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.ls-card-area{font-size:12px;font-weight:600;color:var(--ink);margin-bottom:8px}
+.ls-hours{display:flex;flex-direction:column;gap:5px}
+.ls-type{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.ls-type-label{font-size:11px;color:var(--ink-ter)}
+.ls-type-val{font-size:13px;font-weight:700}
+.ls-type-val.urban{color:var(--amber)}
+.ls-type-val.rural{color:var(--red)}
 
-        .stat-value {
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: #2c1b0e;
-            line-height: 1.2;
-            margin-bottom: 6px;
-        }
+.chain-grid{display:flex;flex-direction:column;gap:0;margin-bottom:1.5rem}
+.chain-item{border:1px solid var(--border);padding:12px 16px;background:var(--white);display:flex;align-items:flex-start;gap:14px}
+.chain-item:first-child{border-radius:var(--radius) var(--radius) 0 0}
+.chain-item:last-child{border-radius:0 0 var(--radius) var(--radius);border-top:none;border-color:var(--red)}
+.chain-item:not(:first-child):not(:last-child){border-top:none}
+.chain-num{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:var(--ink-ter);flex-shrink:0;width:28px;line-height:1.2}
+.chain-body{}
+.chain-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:3px}
+.chain-desc{font-size:12px;color:var(--ink-sec);line-height:1.55}
+.chain-item:last-child .chain-title{color:var(--red)}
 
-        .stat-value .small-suffix {
-            font-size: 1rem;
-            font-weight: 500;
-            color: #7d5d3e;
-            margin-left: 4px;
-        }
+.source-list{list-style:disc;padding-left:1.2rem}
+.source-list li{font-size:13px;color:var(--ink-sec);margin-bottom:6px;line-height:1.6}
+.related-link{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;font-size:13px;font-weight:600;padding:10px 20px;border-radius:var(--radius);text-decoration:none;margin-top:.5rem;transition:background .15s}
+.related-link:hover{background:var(--red)}
+.method-box{background:var(--paper-sec);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1.5rem}
+.method-box p{font-size:12px;color:var(--ink-ter);line-height:1.75}
+.method-box p strong{color:var(--ink-sec);font-weight:600}
 
-        .stat-desc {
-            font-size: 0.9rem;
-            color: #5a3f28;
-            opacity: 0.85;
-            border-top: 1px solid #eddccb;
-            padding-top: 10px;
-            margin-top: 6px;
-        }
-
-        .highlight-red {
-            color: #b13e2b;
-        }
-
-        .highlight-gold {
-            color: #b47a2e;
-        }
-
-        .highlight-green {
-            color: #2a7a4b;
-        }
-
-        .chart-row {
-            display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            gap: 24px;
-            margin-bottom: 28px;
-        }
-
-        .chart-box {
-            background: rgba(255, 250, 240, 0.7);
-            backdrop-filter: blur(4px);
-            border-radius: 32px;
-            padding: 22px 20px 20px;
-            border: 1px solid #e5d2bb;
-            box-shadow: 0 8px 18px rgba(100, 65, 30, 0.08);
-        }
-
-        .chart-box h3 {
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: #3a281b;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 18px;
-            border-bottom: 1px solid #e5d2bb;
-            padding-bottom: 12px;
-        }
-
-        .chart-box h3 i {
-            color: #b45f2a;
-        }
-
-        .chart-container {
-            height: 200px;
-            position: relative;
-        }
-
-        .comparison-box {
-            background: rgba(255, 250, 240, 0.7);
-            backdrop-filter: blur(4px);
-            border-radius: 32px;
-            padding: 22px 20px 20px;
-            border: 1px solid #e5d2bb;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .comparison-box h3 {
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: #3a281b;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 1px solid #e5d2bb;
-            padding-bottom: 12px;
-            margin-bottom: 16px;
-        }
-
-        .comparison-item {
-            background: white;
-            border-radius: 20px;
-            padding: 14px 18px;
-            margin-bottom: 14px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-            border-left: 6px solid #dba87a;
-        }
-
-        .comparison-item .label {
-            font-weight: 600;
-            color: #2f1e0f;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .comparison-item .label span:last-child {
-            font-weight: 700;
-            font-size: 1.2rem;
-        }
-
-        .comparison-item .sub {
-            font-size: 0.85rem;
-            color: #5f4630;
-            margin-top: 6px;
-        }
-
-        .comparison-item.red-border {
-            border-left-color: #b13e2b;
-        }
-
-        .comparison-item.gold-border {
-            border-left-color: #b47a2e;
-        }
-
-        .comparison-item.green-border {
-            border-left-color: #2a7a4b;
-        }
-
-        .footnote {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            margin-top: 24px;
-            background: #e9dccc;
-            padding: 16px 24px;
-            border-radius: 60px;
-            color: #2f1f10;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .footnote i {
-            color: #b45f2a;
-            margin-right: 6px;
-        }
-
-        .footnote .source {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .footnote .source a {
-            color: #1e3c4f;
-            font-weight: 600;
-            text-decoration: none;
-            border-bottom: 1px dotted #b45f2a;
-        }
-
-        @media (max-width: 900px) {
-            .grid-4 {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .chart-row {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 500px) {
-            .header h1 {
-                font-size: 1.5rem;
-            }
-            .grid-4 {
-                grid-template-columns: 1fr;
-            }
-            .stat-value {
-                font-size: 1.8rem;
-            }
-        }
-    </style>
+footer{border-top:1px solid var(--border);padding:1.5rem;max-width:860px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-brand{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--ink)}
+.footer-note{font-size:12px;color:var(--ink-ter)}
+</style>
 </head>
 <body>
-<div class="dashboard">
 
-    <!-- header -->
-    <div class="header">
-        <h1><i class="fas fa-bolt"></i>Pakistan Independant power Producers(IPPs) and Capacity Payments Data Analysis</h1>
-        <div class="badge-pide">
-            <i class="fas fa-file-pdf"></i> PIP-Corporate-Window-IPPs
-        </div>
+<header>
+  <div class="header-inner">
+    <div class="wordmark">
+      <div class="wordmark-icon">DA</div>
+      <div>
+        <div class="wordmark-text">Data Analytics</div>
+        <div class="wordmark-sub">Pakistan · Public Interest</div>
+      </div>
+    </div>
+    <a href="index.html" class="header-link">← All analyses</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-kicker">Power Sector Analysis · June 2026</div>
+    <p class="hero-title">IPP Capacity Payments and the Electricity Paradox</p>
+    <h1>You pay for the plant.<br>You pay for the debt.<br>Then <em>you sit in the dark.</em></h1>
+    <p class="hero-deck">
+      <strong>Pakistan has 46.2 GW of installed electricity capacity.</strong> Baseload demand runs at 12,000 to 12,500 MW. Over half the installed capacity sits idle most of the year. Yet consumers pay capacity charges for every megawatt whether it generates electricity or not, fund the circular debt those payments created, and then endure hours of loadshedding on top of it all.
+    </p>
+    <div class="argument-box">
+      <p><strong>The structure of the problem:</strong> Under take-or-pay Power Purchase Agreements signed under the 1994, 2002 and 2015 power policies, the government guaranteed capacity payments to IPPs regardless of actual electricity generation. <span class="hl">71% of the electricity tariff is capacity charge.</span> Only 29% is for actual energy consumed. CPEC coal plants, which carry the highest capacity payments and lowest utilisation factors, are dollar-indexed, meaning every rupee depreciation since signing automatically increased the rupee cost to consumers.</p>
+      <p><strong>The NEPRA oversight failure:</strong> "Currently, all generation plants are designed with capacity payments, but there is hardly any monitoring of actual capacity and availability. There is no verification of IPP power supply claims." (PIDE, 2024). The Central Power Purchasing Agency (CPPA-G) has never scrutinised IPP invoicing, neither in the past nor currently. The Power Sector Inquiry Report 2020 found irregularities, ordered a full audit. It never happened.</p>
+    </div>
+    <div class="hero-stats">
+      <div><div class="hero-stat-val red">₨1.9T</div><div class="hero-stat-label">capacity payments FY24 (+46% YoY)</div></div>
+      <div><div class="hero-stat-val amber">71%</div><div class="hero-stat-label">of tariff is capacity, not energy</div></div>
+      <div><div class="hero-stat-val red">₨2.4T</div><div class="hero-stat-label">circular debt stock FY24</div></div>
+      <div><div class="hero-stat-val amber">46.2 GW</div><div class="hero-stat-label">installed vs 12-12.5 GW baseload</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+  <div class="method-box">
+    <p><strong>Sources:</strong> All capacity payment and circular debt figures are from the NEPRA State of Industry Report FY24, as compiled by Renewables First Pakistan Electricity Review 2025. Loadshedding figures are from NEPRA load management plans, Dawn reporting (April 2026) and Profit Pakistan Today (January 2026). PIDE quotes are from Afia Malik, PIDE Corporate Window: IPPs and Capacity Payments, published Dawn July 29 2024. All figures in Pakistani rupees unless stated otherwise.</p>
+  </div>
+
+  <div class="section">
+    <div class="sec-label">The headline numbers: FY24 actual</div>
+    <div class="metric-grid">
+      <div class="mc">
+        <div class="mc-l">Capacity purchase price FY24</div>
+        <div class="mc-v c-red">₨1.9T</div>
+        <div class="mc-u">+46% year on year</div>
+      </div>
+      <div class="mc">
+        <div class="mc-l">Circular debt stock FY24</div>
+        <div class="mc-v c-red">₨2.4T</div>
+        <div class="mc-u">24% of total tax revenue</div>
+      </div>
+      <div class="mc">
+        <div class="mc-l">T&D loss cost added to circular debt</div>
+        <div class="mc-v c-amb">₨276B</div>
+        <div class="mc-u">exceeds regulatory limits by 6.5 ppts</div>
+      </div>
+      <div class="mc">
+        <div class="mc-l">Collection shortfall added</div>
+        <div class="mc-v c-amb">₨312B</div>
+        <div class="mc-u">QESCO alone: 37% collection rate</div>
+      </div>
     </div>
 
-    <!-- 4 key stats -->
-    <div class="grid-4">
-        <div class="stat-card">
-            <div class="stat-label"><i class="fas fa-coins"></i> Annual (FY22)</div>
-            <div class="stat-value"><span class="highlight-red">₨ 1.77</span> <span class="small-suffix">Trillion</span></div>
-            <div class="stat-doc"> <i class="fas fa-arrow-up" style="color:#b13e2b;"></i> 71% of purchase price is capacity</div>
+    <div class="key-argument">
+      <p><strong>The core paradox:</strong> Pakistan has 46.2 GW of installed generation capacity. Baseload demand is 12,000 to 12,500 MW. Over half the contracted capacity sits idle most of the year yet earns full capacity payments. After Kot Addu Power Company's retirement, take-or-pay installed capacity still exceeds 41,000 MW. Consumers pay for this idle capacity through a tariff where 71 paisa of every rupee is a capacity charge, before a single unit of electricity is generated or consumed.</p>
+      <p><strong>Then they sit in the dark.</strong> Despite this installed surplus, loadshedding continues across Pakistan in both summer and winter, in urban and rural areas. The contradiction is not accidental. It is structural: the wrong plants are contracted, transmission bottlenecks prevent power from reaching where it is needed, and economically efficient plants are curtailed while expensive ones run because of contractual obligations.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-label">Capacity vs energy: what the tariff actually pays for</div>
+    <div class="chart-wrap">
+      <div class="bar-chart">
+        <div class="bar-row">
+          <div class="bar-label w160">Capacity charge<br><span style="font-size:10px;color:var(--ink-ter)">paid whether plant runs or not</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:71%;background:#C0392B;"><span>71% of tariff</span></div></div>
+          <div class="bar-val c-red">71%</div>
         </div>
-        <div class="stat-card">
-            <div class="stat-label"><i class="fas fa-calendar-alt"></i> FY2030 projection</div>
-            <div class="stat-value"><span class="highlight-gold">₨ 2.24</span> <span class="small-suffix">Trillion</span></div>
-            <div class="stat-doc"> <i class="fas fa-clock"></i> +26% from FY22</div>
+        <div class="bar-row">
+          <div class="bar-label w160">Energy charge<br><span style="font-size:10px;color:var(--ink-ter)">actual electricity generated</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:29%;background:#0E52A0;"><span>29%</span></div></div>
+          <div class="bar-val c-blu">29%</div>
         </div>
-        <div class="stat-card">
-            <div class="stat-label"><i class="fas fa-chart-pie"></i> Energy vs. capacity</div>
-            <div class="stat-value"><span class="highlight-green">29%</span> <span class="small-suffix">energy</span>  /  <span class="highlight-red">71%</span> <span class="small-suffix">capacity</span></div>
-            <div class="stat-doc"> <i class="fas fa-industry"></i> Idle plants dominate bills</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-label"><i class="fas fa-dollar-sign"></i> Exchange risk</div>
-            <div class="stat-value"><span class="highlight-red">$</span> denominated</div>
-            <div class="stat-doc"> <i class="fas fa-exclamation-triangle"></i> IPPs agreements in USD</div>
-        </div>
+      </div>
+      <p class="chart-note">Source: PIDE Corporate Window, Afia Malik, July 2024. Per-unit capacity payments rose from ₨16.22/kWh in FY24 to ₨17.31/kWh in FY25 per NEPRA tariff determination.</p>
     </div>
 
-    <!-- row: chart + comparison -->
-    <div class="chart-row">
-        <!-- left chart: capacity payments -->
-        <div class="chart-box">
-            <h3><i class="fas fa-chart-line"></i> Capacity payments (₨ Trillion)</h3>
-            <div class="chart-container">
-                <canvas id="capacityChart" width="400" height="200"></canvas>
-            </div>
-            <div style="margin-top: 16px; font-size:0.8rem; color:#5a3f28; background:#f2e8dc; padding:10px 14px; border-radius:40px; display:inline-block;">
-                <i class="fas fa-circle" style="color:#b45f2a;"></i> FY22 actual · <i class="fas fa-circle" style="color:#dba87a;"></i> FY30 projection
-            </div>
-        </div>
-
-        <!-- right: comparison / paradox -->
-        <div class="comparison-box">
-            <h3><i class="fas fa-scale-balanced"></i> The paradox</h3>
-            <div class="comparison-item red-border">
-                <div class="label"><span><i class="fas fa-ban"></i> Claim: loadshedding ended</span> <span>❌</span></div>
-                <div class="sub">PMLN narrative vs. ground reality</div>
-            </div>
-            <div class="comparison-item gold-border">
-                <div class="label"><span><i class="fas fa-hand-holding-usd"></i> We pay for idle capacity</span> <span>₨ 1.8T+</span></div>
-                <div class="sub">71% of tariff — even when not used</div>
-            </div>
-            <div class="comparison-item green-border">
-                <div class="label"><span><i class="fas fa-file-signature"></i> 1994 policy liability</span> <span>USD indexed</span></div>
-                <div class="sub">exorbitant capacity payments, no monitoring</div>
-            </div>
-            <div style="margin-top: 8px; background:#f3e3d1; border-radius:40px; padding:10px 16px; font-size:0.85rem; text-align:center;">
-                <i class="fas fa-magnifying-glass" style="color:#7d3c1b;"></i> “hardly any monitoring” – PIDE report
-            </div>
-        </div>
+    <div class="two-col">
+      <div class="stat-card">
+        <div class="stat-card-label">Installed capacity</div>
+        <div class="stat-card-val c-red">46.2 GW</div>
+        <div class="stat-card-desc">As of FY24. Grew 0.6% YoY with three new solar plants added. Thermal dominates at 29 GW installed.</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Average baseload demand</div>
+        <div class="stat-card-val c-amb">12-12.5 GW</div>
+        <div class="stat-card-desc">System baseload. Peak summer demand reaches 27-30 GW but capacity contracts are take-or-pay year-round, not just for peak periods.</div>
+      </div>
     </div>
 
-    <!-- extra datapoint row: 2.8T projection and 71% visual -->
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap:22px; margin-top: 8px;">
-        <div style="background: #f7efe5; border-radius: 28px; padding: 18px 22px; display: flex; align-items: center; gap: 16px; border: 1px solid #e6cfb8;">
-            <div style="background: #b45f2a20; border-radius: 60px; padding: 10px 14px;"><i class="fas fa-arrow-trend-up" style="color:#b45f2a; font-size:1.6rem;"></i></div>
-            <div><span style="font-weight:300; color:#4d351f;">FY2024/25 projection</span><br><span style="font-weight:800; font-size:1.8rem; color:#872f1a;">₨ 2.8 Trillion</span> <span style="font-size:0.9rem; color:#6f4e2e;">(PIDE estimate)</span></div>
+    <div class="callout amber">
+      <p><strong>The dollar indexation trap:</strong> CPEC coal power plants, which hold the highest share of capacity payments and the lowest utilisation factors, have their contracts indexed to the US dollar. The 1994 power policy similarly guaranteed dollar-denominated returns to attract foreign investment. Every depreciation of the rupee since signing has automatically inflated the rupee cost of capacity payments to consumers. This exchange rate risk was transferred entirely to Pakistani households and businesses at the point of contract signing, without public knowledge or consent.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-label">Capacity payment growth: who is driving the increase</div>
+    <div class="chart-wrap">
+      <div class="bar-chart">
+        <div class="bar-row">
+          <div class="bar-label w200">CPEC coal plants<br><span style="font-size:10px;color:var(--ink-ter)">highest CPP, lowest utilisation</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:36%;background:#C0392B;"><span>36% of CPP (FY25)</span></div></div>
+          <div class="bar-val c-red">36%</div>
         </div>
-        <div style="background: #f7efe5; border-radius: 28px; padding: 18px 22px; display: flex; align-items: center; gap: 16px; border: 1px solid #e6cfb8;">
-            <div style="background: #b13e2b20; border-radius: 60px; padding: 10px 14px;"><i class="fas fa-percent" style="color:#b13e2b; font-size:1.6rem;"></i></div>
-            <div><span style="font-weight:300; color:#4d351f;">Capacity share in tariff</span><br><span style="font-weight:800; font-size:1.8rem; color:#9a3e24;">71%</span> <span style="font-size:0.9rem; color:#6f4e2e;">vs 29% energy</span></div>
+        <div class="bar-row">
+          <div class="bar-label w200">Government-owned plants<br><span style="font-size:10px;color:var(--ink-ter)">Gencos, nuclear</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:49%;background:#A85B00;"><span>49% of CPP</span></div></div>
+          <div class="bar-val c-amb">49%</div>
         </div>
+        <div class="bar-row">
+          <div class="bar-label w200">Private IPPs (1994, 2002 policy)<br><span style="font-size:10px;color:var(--ink-ter)">40 business groups, debt paid off</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:15%;background:#185FA5;"><span>15%</span></div></div>
+          <div class="bar-val c-blu">15%</div>
+        </div>
+      </div>
+      <p class="chart-note">Source: NEPRA State of Industry Report FY24 via Renewables First PER 2025. CPP rose 46% YoY in FY24 with coal and nuclear plants accounting for the highest share of the increase. Note: 52% of installed capacity is government-owned, yet government plants account for 49% of CPP. The private sector narrative obscures that the state is paying itself capacity charges for inefficient plants it owns.</p>
     </div>
 
-    <!-- footer / source -->
-    <div class="footnote">
-        <div class="source">
-            <i class="fas fa-check-circle" style="color:#2a7a4b;"></i> Source: PIDE · 
-            <a href="https://file.pide.org.pk/pdfpideinpress/pip-corporate-window-ipps-and-capacity-payments.pdf" 
-            target="_blank" 
-            style="color:#1e3c4f; font-weight:600; text-decoration:none; border-bottom:1px dotted #b45f2a;">
-            PIP-Corporate-Window-IPPs
-            </a>
-            <span style="opacity:0.4; margin:0 10px;">|</span>
-            <i class="fas fa-file-alt"></i> Capacity payments: ₨1.77T (FY22) · ₨2.24T (FY30) · ₨2.8T (FY25 est.)
-        </div>
+    <div class="callout">
+      <p><strong>The government pays itself, and still cannot afford it:</strong> 52% of installed generation capacity is government-owned. These government plants (Gencos) receive the same capacity payment structure as private IPPs. Many Gencos built in the 1980s have exceeded their operational lives, run at low efficiency, and should have been retired. Instead they remain in the system, drawing capacity payments. Their workforces are idle. The fiscal constraint from paying capacity charges to its own inefficient plants is one reason the government cannot fund development spending. 43% of the federal budget goes to debt servicing, partly because power sector debt compounds through the circular debt mechanism.</p>
     </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-label">The loadshedding paradox: paying for capacity, sitting in the dark</div>
+
+    <div class="paradox-grid">
+      <div class="paradox-card left">
+        <div class="paradox-title">What consumers pay for</div>
+        <div class="paradox-item">₨1.9T in capacity charges FY24</div>
+        <div class="paradox-item">71% of tariff is capacity, not energy</div>
+        <div class="paradox-item">₨17.31/kWh capacity charge FY25</div>
+        <div class="paradox-item">Dollar-indexed CPEC plant costs</div>
+        <div class="paradox-item">Debt Service Surcharge on bills</div>
+        <div class="paradox-item">Circular debt interest line item</div>
+        <div class="paradox-item">PDL on fuel used to run plants</div>
+      </div>
+      <div class="paradox-card right">
+        <div class="paradox-title">What consumers receive</div>
+        <div class="paradox-item">Urban: 2 to 8 hours loadshedding daily</div>
+        <div class="paradox-item">Rural: 8 to 16 hours daily in some areas</div>
+        <div class="paradox-item">KPK rural: 14 to 16 hours per day (Apr 2026)</div>
+        <div class="paradox-item">MEPCO rural: 12 to 16 hours (Punjab)</div>
+        <div class="paradox-item">Winter loadshedding from fog-related plant tripping</div>
+        <div class="paradox-item">Voltage fluctuations damaging appliances</div>
+        <div class="paradox-item">No mechanism to claim refund for outage hours</div>
+      </div>
+    </div>
+
+    <div class="sec-label">Loadshedding hours: April 2026 (NEPRA load management plans)</div>
+    <div class="loadshed-grid">
+      <div class="ls-card">
+        <div class="ls-card-region">Punjab</div>
+        <div class="ls-card-area">LESCO (Lahore)</div>
+        <div class="ls-hours">
+          <div class="ls-type"><span class="ls-type-label">Urban</span><span class="ls-type-val urban">2 to 4 hrs</span></div>
+          <div class="ls-type"><span class="ls-type-label">Rural</span><span class="ls-type-val rural">8 hrs</span></div>
+        </div>
+      </div>
+      <div class="ls-card">
+        <div class="ls-card-region">Punjab</div>
+        <div class="ls-card-area">MEPCO (Multan/South)</div>
+        <div class="ls-hours">
+          <div class="ls-type"><span class="ls-type-label">Urban</span><span class="ls-type-val urban">6 to 8 hrs</span></div>
+          <div class="ls-type"><span class="ls-type-label">Rural</span><span class="ls-type-val rural">12 to 16 hrs</span></div>
+        </div>
+      </div>
+      <div class="ls-card">
+        <div class="ls-card-region">Punjab</div>
+        <div class="ls-card-area">FESCO (Faisalabad)</div>
+        <div class="ls-hours">
+          <div class="ls-type"><span class="ls-type-label">Urban</span><span class="ls-type-val urban">6 to 8 hrs</span></div>
+          <div class="ls-type"><span class="ls-type-label">Industrial</span><span class="ls-type-val urban">reduced</span></div>
+        </div>
+      </div>
+      <div class="ls-card">
+        <div class="ls-card-region">KPK</div>
+        <div class="ls-card-area">PESCO (Peshawar)</div>
+        <div class="ls-hours">
+          <div class="ls-type"><span class="ls-type-label">Urban</span><span class="ls-type-val urban">8 to 10 hrs</span></div>
+          <div class="ls-type"><span class="ls-type-label">Rural</span><span class="ls-type-val rural">14 to 16 hrs</span></div>
+        </div>
+      </div>
+      <div class="ls-card">
+        <div class="ls-card-region">Winter 2026 (Jan)</div>
+        <div class="ls-card-area">LESCO during fog crisis</div>
+        <div class="ls-hours">
+          <div class="ls-type"><span class="ls-type-label">Urban Lahore</span><span class="ls-type-val rural">8 to 10 hrs</span></div>
+          <div class="ls-type"><span class="ls-type-label">Shortfall</span><span class="ls-type-val rural">4,000 MW</span></div>
+        </div>
+      </div>
+      <div class="ls-card">
+        <div class="ls-card-region">High loss feeders</div>
+        <div class="ls-card-area">Nationwide policy</div>
+        <div class="ls-hours">
+          <div class="ls-type"><span class="ls-type-label">Daily</span><span class="ls-type-val rural">12 to 16 hrs</span></div>
+          <div class="ls-type"><span class="ls-type-label">Reason</span><span class="ls-type-val urban">theft policy</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>Winter loadshedding is not a capacity shortage. It is a system failure.</strong> In January 2026, Pakistan faced a 4,000 MW shortfall despite 46.2 GW of installed capacity. The reason: fog caused plant tripping in the south, the Matiari-Lahore HVDC transmission line was affected, gas supply to Lahore-based power plants was curtailed, and LNG supply from Qatar was suspended. The plants exist. The transmission grid cannot move power from south to north efficiently. Overloaded 500 kV lines force curtailment of economic base-load plants and reliance on costlier RLNG plants when available. Consumers paid capacity charges for all of it regardless.</p>
+      <p><strong>Summer loadshedding has a different cause but the same result.</strong> Peak demand hits 27 to 30 GW. Hydel runs at capacity. Thermal plants are dispatched by economic merit order, but transmission congestion in the south prevents full dispatch of coal and nuclear plants. System operators must curtail cheap generation and run expensive RLNG in the north. The consumer pays both the higher energy price and the capacity charge for the curtailed plant.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-label">The circular debt chain: how costs layer onto the bill</div>
+    <div class="chain-grid">
+      <div class="chain-item">
+        <div class="chain-num">1</div>
+        <div class="chain-body">
+          <div class="chain-title">Capacity payments issued to IPPs and Gencos</div>
+          <div class="chain-desc">₨1.9T in FY24, regardless of utilisation. Dollar-indexed CPEC plants receive highest per-unit payments at lowest output. Government cannot afford to pay on time.</div>
+        </div>
+      </div>
+      <div class="chain-item">
+        <div class="chain-num">2</div>
+        <div class="chain-body">
+          <div class="chain-title">Unpaid dues accumulate as circular debt</div>
+          <div class="chain-desc">₨2.4T circular debt stock in FY24, equal to 24% of total tax revenue. CPPA-G owes GENCOs, GENCOs owe fuel suppliers, fuel suppliers cut supply, plants cannot run. The chain of non-payment causes supply disruption.</div>
+        </div>
+      </div>
+      <div class="chain-item">
+        <div class="chain-num">3</div>
+        <div class="chain-body">
+          <div class="chain-title">Government borrows to plug the gap</div>
+          <div class="chain-desc">Power Holding Private Limited (PHPL) borrows on behalf of the power sector. Interest on PHPL debt alone constitutes a line item in circular debt. This borrowing adds to the domestic debt stack, the same T-bills the JazzCash campaign promotes as investment.</div>
+        </div>
+      </div>
+      <div class="chain-item">
+        <div class="chain-num">4</div>
+        <div class="chain-body">
+          <div class="chain-title">Interest and debt passed to consumers via surcharges</div>
+          <div class="chain-desc">The Debt Service Surcharge (₨2.84/unit in FY25) appears as a line item on electricity bills to repay PHPL debt. Circular debt interest charges (IPPs and PHL) are a separate component embedded in the tariff. Fuel Cost Adjustments and Quarterly Tariff Adjustments add further variability.</div>
+        </div>
+      </div>
+      <div class="chain-item">
+        <div class="chain-num">5</div>
+        <div class="chain-body">
+          <div class="chain-title">PDL and gas levies complete the extraction</div>
+          <div class="chain-desc">The Petroleum Development Levy on fuel used to run thermal power plants is paid by consumers indirectly through higher energy charges. Gas levies (GIDC) similarly feed through to generation costs. The consumer funds the fuel, funds the capacity, funds the debt on the capacity, and funds the interest on that debt. All in a single monthly bill..</div>
+        </div>
+      </div>
+      <div class="chain-item">
+        <div class="chain-num">6</div>
+        <div class="chain-body">
+          <div class="chain-title">Loadshedding despite full payment</div>
+          <div class="chain-desc">Having paid for all of the above, the consumer receives interrupted supply. No refund mechanism exists for hours not supplied. The 1,000 high-loss feeder areas receive 12 to 16 hours of scheduled outages as a policy matter to deter theft, punishing all consumers in those areas including those who pay in full.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="key-argument">
+      <p><strong>The oversight that never happened:</strong> The Power Sector Inquiry Report 2020 found irregularities in IPP invoicing: "most issues stem from inaccurate invoicing by IPPs and misinterpreting PPAs." A full operational and financial audit of all IPPs was ordered. It was never carried out. NEPRA sets tariffs but does not review or approve PPAs. CPPA-G (the single buyer) has never scrutinised IPP invoices. The October 2024 termination of five IPP contracts is projected to save ₨411 billion, meaningful, but against a ₨1.9T annual capacity payment bill and ₨2.4T circular debt stock, the relief is marginal without structural reform of the procurement model, transmission investment, and regulatory independence.</p>
+      <p><strong>Renegotiation has limits the government will not state publicly.</strong> Pakistan has lost international arbitrations over IPP contract disputes before, with Hubco in the 1990s being the most prominent. Every PPA renegotiation that goes to arbitration costs foreign exchange Pakistan cannot afford. This is the constraint that makes reform slow and partial. The consumer absorbs the cost of a system the government cannot renegotiate, cannot afford, and cannot explain.</p>
+    </div>
+  </div>
+
+
+  <div class="section">
+    <div class="sec-label">Summer peak demand: why 46 GW is never enough when you need it</div>
+
+    <div class="key-argument">
+      <p><strong>The question every Pakistani asks in June, July and August:</strong> if we have 46.2 GW of installed capacity and we pay for all of it, why is there no electricity when temperatures hit 45 degrees Celsius and demand peaks?</p>
+      <p><strong>The answer is not a shortage of plants. It is a failure of the system connecting them to homes.</strong> Peak summer demand reaches 27,000 to 30,000 MW. Hydel generation drops as glacial melt does not compensate for reservoir drawdown from the previous season. Thermal plants in the south are constrained by the transmission network. The 500 kV grid linking southern generation to northern load centres operates near its physical limit. When it does, the system operator has two choices: curtail generation in the south or risk cascading tripping across the whole grid. They curtail. Punjab, KPK and Azad Kashmir absorb the cuts even though the plants they are paying for through capacity charges are physically running in Sindh and Balochistan.</p>
+      <p><strong>RLNG plants in the north, which could serve Punjab directly, depend on LNG imports.</strong> When global LNG prices spiked in 2022, Pakistan could not afford spot cargoes. When Qatar paused supply in early 2026, northern plants lost fuel. The installed capacity number on paper bears no relationship to what a household in Lahore, Faisalabad or Peshawar can actually receive on a peak summer afternoon. Consumers pay capacity charges for southern coal plants they cannot access and fuel levies for northern gas plants that have no gas.</p>
+    </div>
+
+    <div class="two-col">
+      <div class="stat-card">
+        <div class="stat-card-label">Peak summer demand</div>
+        <div class="stat-card-val c-red">27 to 30 GW</div>
+        <div class="stat-card-desc">System peak in June to August. Against 46.2 GW installed but only 12 to 12.5 GW average baseload. The gap between nameplate and available capacity is the system's core structural failure.</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Unscheduled cuts in peak months</div>
+        <div class="stat-card-val c-amb">4 to 8+ hrs</div>
+        <div class="stat-card-desc">On top of scheduled loadshedding. Unannounced, uncompensated. Rural areas have reported 16 to 20 hours combined in peak summer weeks. No prior notice. No refund. Bills arrive in full.</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>Why the system cannot simply dispatch more electricity in a heatwave:</strong> Three simultaneous constraints bind the system at peak. First, hydel output falls in early summer before monsoon inflows restore reservoirs, reducing the cheapest generation available. Second, transmission congestion in the south prevents full dispatch of coal plants even when they are available and contracted. Third, RLNG availability in the north depends on spot LNG procurement the government cannot always afford, particularly after the foreign exchange crises of 2022 to 2023.</p>
+      <p><strong>Demand-side factors worsen each year.</strong> Air conditioning penetration is rising fast as incomes grow and temperatures increase. A household that ran two fans in 2015 now runs one or two air conditioners in 2025. System peak is growing faster than transmission capacity is being added. The government approved Rs 660 billion in transmission upgrades in 2023 but execution has lagged. Meanwhile, consumers pay for the capacity that exists on paper and receive cuts in the heat because the wire to carry that power does not exist or cannot carry the load.</p>
+      <p><strong>Industrial production in summer is directly affected.</strong> Textile exporters, cold chain operators and food processors face the highest electricity bills in the system, fund the most capacity through tariff cross-subsidy, and lose the most production hours to unscheduled cuts in the months when they most need to run cooling and processing equipment. This is a direct drag on export earnings and on the same foreign exchange Pakistan needs to service its external debt.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-label">The solar exit and what it means for remaining consumers</div>
+    <div class="callout blue">
+      <p><strong>Those who can afford to leave are leaving.</strong> Net-metered solar capacity reached 4.9 GW by March 2025, nearly double the 1.3 GW in FY23. Over 293,000 consumers have installed rooftop solar. Electricity sales dropped 2.8% YoY in FY24, the second consecutive year of decline despite GDP growing 2.4%. Industrial consumers dropped 11% in electricity purchases. Agriculture dropped 11%.</p>
+      <p><strong>This creates a tariff death spiral for remaining consumers.</strong> As higher-income households and industries exit the grid, the fixed capacity payment burden (₨1.9T per year) must be recovered from a shrinking base of consumers who cannot afford solar. NEPRA raises tariffs to recover fixed costs. Higher tariffs push more consumers to solar. The remaining consumers, mostly lower-income rural households unable to invest in solar, bear an ever-larger share of the fixed capacity cost. The system is cannibalising its own paying consumer base.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="sec-label">Related analysis</div>
+    <p style="font-size:14px;color:var(--ink-sec);line-height:1.7;margin-bottom:1rem;">The capacity payment burden, circular debt, and the Debt Service Surcharge on electricity bills are directly connected to the domestic debt interest crisis analysed in the T-bill piece. Power Holding Private Limited borrowing to service capacity payment arrears feeds into the same T-bill and PIB market the government uses to finance its fiscal deficit.</p>
+    <a href="pakistan-tbill-illusion.html" class="related-link">
+      Read: The T-bill Illusion and the Debt Trap
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </a>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="sec-label">Sources: all official</div>
+    <ul class="source-list">
+      <li>NEPRA State of Industry Report FY24, via Renewables First Pakistan Electricity Review 2025</li>
+      <li>PIDE Corporate Window: IPPs and Capacity Payments, Afia Malik, published Dawn July 29 2024</li>
+      <li>Power Sector Inquiry Report 2020, Government of Pakistan</li>
+      <li>NEPRA tariff determination FY25, per-unit capacity and energy charges</li>
+      <li>Circular Debt Management Plan (CDMP) FY25, Power Division</li>
+      <li>Dawn: loadshedding reports April 2026, April 2022, July 2021</li>
+      <li>Profit Pakistan Today: electricity shortfall January 2026</li>
+      <li>NEPRA load management plans April 2026, DISCO-wise breakdown</li>
+    </ul>
+  </div>
 
 </div>
 
-<script>
-    (function() {
-        // chart: capacity payments
-        const ctx = document.getElementById('capacityChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['FY2022 (actual)', 'FY2030 (projected)'],
-                datasets: [{
-                    label: 'Capacity payments (₨ Trillion)',
-                    data: [1.77, 2.24],
-                    backgroundColor: ['#b45f2a', '#dba87a'],
-                    borderRadius: 12,
-                    barPercentage: 0.6,
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return '₨ ' + context.parsed.y + ' Trillion';
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: { color: '#e5d2bb' },
-                        ticks: { callback: function(value) { return '₨' + value + 'T'; } }
-                    }
-                }
-            }
-        });
+<footer>
+  <div class="footer-brand">Data Analytics · Pakistan</div>
+  <div class="footer-note">Data from NEPRA, PIDE, Power Division and official GoP publications · June 2026</div>
+</footer>
 
-    
-        const comparisonBox = document.querySelector('.comparison-box');
-        const donutWrapper = document.createElement('div');
-        donutWrapper.style.marginTop = '12px';
-        donutWrapper.style.background = '#faf3ea';
-        donutWrapper.style.borderRadius = '40px';
-        donutWrapper.style.padding = '12px 10px 8px';
-        donutWrapper.style.textAlign = 'center';
-        donutWrapper.innerHTML = `<div style="font-weight:500; color:#3a281b; margin-bottom:6px;"><i class="fas fa-chart-pie"></i> Capacity vs Energy cost share</div>
-                                  <div style="display:flex; justify-content:center; gap:24px; align-items:center;">
-                                    <canvas id="donutChart" width="90" height="90" style="max-width:90px; max-height:90px;"></canvas>
-                                    <div style="text-align:left; font-size:0.85rem;">
-                                        <div><span style="background:#b45f2a; display:inline-block; width:12px; height:12px; border-radius:12px;"></span> Capacity 71%</div>
-                                        <div><span style="background:#dba87a; display:inline-block; width:12px; height:12px; border-radius:12px;"></span> Energy 29%</div>
-                                    </div>
-                                  </div>`;
-        comparisonBox.appendChild(donutWrapper);
-
-        // render donut
-        const donutCtx = document.getElementById('donutChart').getContext('2d');
-        new Chart(donutCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Capacity', 'Energy'],
-                datasets: [{
-                    data: [71, 29],
-                    backgroundColor: ['#b45f2a', '#dba87a'],
-                    borderWidth: 0,
-                }]
-            },
-            options: {
-                responsive: true,
-                cutout: '65%',
-                plugins: { legend: { display: false } }
-            }
-        });
-    })();
-</script>
-
-<!-- small fix: remove extra canvas if any -->
 </body>
 </html>
